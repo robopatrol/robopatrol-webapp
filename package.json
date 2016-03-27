@@ -1,22 +1,22 @@
 {
-  "name": "aurelia-skeleton-navigation",
-  "version": "1.0.0-beta.1.2.0",
-  "description": "A starter kit for building a standard navigation-style app with Aurelia.",
+  "name": "robopatrol",
+  "version": "0.0.1",
+  "description": "Web application for Robopatrol",
   "keywords": [
-    "aurelia",
-    "navigation",
-    "skeleton"
+    "robopatrol",
+    "ros",
+    "turtlebot"
   ],
-  "homepage": "http://aurelia.io",
+  "homepage": "",
   "bugs": {
-    "url": "https://github.com/aurelia/skeleton-navigation/issues"
+    "url": "https://github.com/robopatrol/robopatrol-webapp/issues"
   },
-  "license": "CC0-1.0",
-  "author": "Rob Eisenberg <rob@bluespire.com> (http://robeisenberg.com/)",
+  "license": "ISC",
+  "author": "RoboPatrol Team",
   "main": "dist/main.js",
   "repository": {
     "type": "git",
-    "url": "http://github.com/aurelia/skeleton-navigation"
+    "url": "http://github.com/robopatrol/robopatrol-webapp"
   },
   "scripts": {
     "test": "gulp test",
