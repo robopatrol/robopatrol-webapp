@@ -2,6 +2,8 @@ import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
 
 import {Ros} from 'lib/ros';
+
+
 @inject(Ros)
 export class App {
 
@@ -14,9 +16,8 @@ export class App {
     config.addPipelineStep('preActivate', ConnectionStep)
     config.map([
       { route: ['', 'home'], name: 'home', moduleId: 'pages/home', nav: true, title: 'Home', connected: true },
-      { route: 'users',         name: 'users',        moduleId: 'users',        nav: true, title: 'Github Users' },
-      { route: 'child-router',  name: 'child-router', moduleId: 'child-router', nav: true, title: 'Child Router' }
       { route: 'connect', name: 'connect', moduleId: 'pages/connect', nav: false, title: 'Connect', connected: false },
+
       { route: 'disconnect', name: 'disconnect', moduleId: 'pages/disconnect', nav: true, title: 'Disconnect', connected: true },
     ]);
 
