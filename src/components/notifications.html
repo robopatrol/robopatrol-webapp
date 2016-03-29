@@ -1,0 +1,6 @@
+<template>
+  <div if.bind="notification" class="alert alert-${notification.type}" role="alert">
+    <button type="button" class="close" click.trigger="close(notification.id)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    ${notification.msg}
+  </div>
+</template>
