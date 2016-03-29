@@ -1,0 +1,5 @@
+<template>
+  <h1>${heading}</h1>
+  <button type="submit" class="btn btn-primary" click.delegate="move()" disabled.bind="isMoving">Move</button>
+  <button type="submit" class="btn btn-danger" click.delegate="stop()" disabled.bind="!isMoving">Stop</button>
+</template>
