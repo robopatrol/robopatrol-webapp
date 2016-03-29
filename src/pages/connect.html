@@ -1,0 +1,12 @@
+<template>
+  <div class="container">
+    <h1>Connect to ROS</h1>
+    <form role="form" submit.delegate="submit()">
+      <div class="form-group">
+        <input type="text" value.bind="url" class="form-control" id="url" placeholder="URL">
+        <p class="help-block">Enter the URL/IP and port of your turtlebot ros-bridge websocket server.</p>
+      </div>
+      <button type="submit" class="btn btn-primary">Connect</button>
+    </form>
+  </div>
+</template>
