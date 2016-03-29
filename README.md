@@ -15,12 +15,16 @@ To run the app, follow these steps.
   ```shell
   npm install -g gulp
   ```
+  > **Note:** Global installations have to be run as root or sudo. To avoid this, you can use a virtual node environment (e.g. [nodeenv](https://github.com/ekalinin/nodeenv)).
+
   > **Note:** Gulp must be installed globally, but a local version will also be installed to ensure a compatible version is used for the project.
 4. Ensure that [jspm](http://jspm.io/) is installed globally. If you need to install it, use the following command:
 
   ```shell
   npm install -g jspm
   ```
+  > **Note:** Global installations have to be run as root or sudo. To avoid this, you can use a virtual node environment (e.g. [nodeenv](https://github.com/ekalinin/nodeenv)).
+
   > **Note:** jspm must be installed globally, but a local version will also be installed to ensure a compatible version is used for the project.
 
   > **Note:** jspm queries GitHub to install semver packages, but GitHub has a rate limit on anonymous API requests. It is advised that you configure jspm with your GitHub credentials in order to avoid problems. You can do this by executing `jspm registry config github` and following the prompts. If you choose to authorize jspm by an access token instead of giving your password (see GitHub `Settings > Personal Access Tokens`), `public_repo` access for the token is required.
@@ -44,13 +48,11 @@ To run the app, follow these steps.
 To run the simulation and rosbridge websocket, follow these steps.
 
 1. Install Turltebot Gazebo Simulation and [Rosbridge](http://wiki.ros.org/rosbridge_suite/Tutorials/RunningRosbridge) packages.
-
 2. Launch Gazebo Simulation
 
   ```shell
   roslaunch turtlebot_gazebo turtlebot_world.launch
   ```
-
 3. Launch rosbridge websocket
 
   ```shell
