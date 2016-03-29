@@ -39,6 +39,24 @@ To run the app, follow these steps.
 
 > The Skeleton App uses [BrowserSync](http://www.browsersync.io/) for automated page refreshes on code/markup changes concurrently across multiple browsers. If you prefer to disable the mirroring feature set the [ghostMode option](http://www.browsersync.io/docs/options/#option-ghostMode) to false
 
+## Running the Gazebo Simulation and Rosbride
+
+To run the simulation and rosbridge websocket, follow these steps.
+
+1. Install Turltebot Gazebo Simulation and [Rosbridge](http://wiki.ros.org/rosbridge_suite/Tutorials/RunningRosbridge) packages.
+
+2. Launch Gazebo Simulation
+
+  ```shell
+  roslaunch turtlebot_gazebo turtlebot_world.launch
+  ```
+
+3. Launch rosbridge websocket
+
+  ```shell
+  roslaunch rosbridge_server rosbridge_websocket.launch
+  ```
+
 ## Running The App under Electron
 
 To run the app under [Electron](http://electron.atom.io), follow these steps.
