@@ -38,7 +38,7 @@ class ConnectionStep {
   run(navigationInstruction, next) {
     if (navigationInstruction.getAllInstructions().some(i => i.config.connected)) {
       if (!this.ros.isConnected) {
-        return next.cancel(new Redirect('connect'));
+        return next.cancel(new Redirect(`connect?came_from=${navigationInstruction.fragment}`));
       }
     }
 

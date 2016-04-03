@@ -1,31 +1,31 @@
-import {inject} from 'aurelia-framework';
-import {EventAggregator} from 'aurelia-event-aggregator';
-import {Router} from 'aurelia-router';
 
-
-@inject(Router, EventAggregator)
 export class Ros extends ROSLIB.Ros {
 
-  constructor(router, ea) {
-    super();
+  connect(url) {
+    return new Promise((resolve, reject) => {
+      this.once('connection', function() {
+         return resolve();
+      });
+      this.once('error', function(error) {
+         return reject(error);
+      });
+      super.connect(url);
+    });
+  }
 
-    this.router = router;
-    this.ea = ea;
+  close() {
+    return new Promise((resolve, reject) => {
+      this.once('close', function() {
+        return resolve();
+      });
+      super.close();
+    });
+  }
 
-    this.on('error', function(error) {
-        this.ea.publish('notification', {type: "danger", msg: `Error connecting to websocket server: ${error}`});
-    }.bind(this));
-
-    this.on('connection', function() {
-        this.ea.publish('notification', {type: "success", msg: "Connected to websocket server."});
-        this.router.navigate('');
-    }.bind(this));
-
-    this.on('close', function() {
-        this.ea.publish('notification', {type: "warning", msg: "Connection to websocket server closed."});
-        this.router.navigate('');
-    }.bind(this));
-
+  getTopics() {
+    return new Promise((resolve, reject) => {
+      super.getTopics(resolve, reject);
+    });
   }
 }
 
