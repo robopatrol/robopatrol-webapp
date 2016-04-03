@@ -18,6 +18,8 @@ export class App {
       { route: ['', 'home'], name: 'home', moduleId: 'pages/home', nav: true, title: 'Home', connected: true },
       { route: 'connect', name: 'connect', moduleId: 'pages/connect', nav: false, title: 'Connect', connected: false },
 
+      { route: 'ros-infos', name: 'ros-infos', moduleId: 'pages/ros-infos/index', nav: true, title: 'ROS Infos', connected: true },
+
       { route: 'dummy', name: 'dummy', moduleId: 'pages/dummy', nav: true, title: 'Dummy Move', connected: true },
 
       { route: 'disconnect', name: 'disconnect', moduleId: 'pages/disconnect', nav: true, title: 'Disconnect', connected: true },

@@ -22,6 +22,24 @@ export class Ros extends ROSLIB.Ros {
     });
   }
 
+  getNodes() {
+    return new Promise((resolve, reject) => {
+      super.getNodes(resolve, reject);
+    });
+  }
+
+  getParams() {
+    return new Promise((resolve, reject) => {
+      super.getParams(resolve, reject);
+    });
+  }
+
+  getServices() {
+    return new Promise((resolve, reject) => {
+      super.getServices(resolve, reject);
+    });
+  }
+
   getTopics() {
     return new Promise((resolve, reject) => {
       super.getTopics(resolve, reject);
