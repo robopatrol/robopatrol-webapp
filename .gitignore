@@ -5,6 +5,7 @@ bower_components
 .DS_STORE
 /env
 /dist
+/public/dist
 build/reports
 coverage
 test/e2e/dist
