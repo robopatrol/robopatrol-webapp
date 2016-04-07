@@ -3,6 +3,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var debug = require('debug')('robopatrol-webapp');
 
+var api = require('./server/routes')
 
 var app = express();
 
@@ -18,6 +19,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(allowCrossDomain);
+
+app.use('/api', api);
 
 app.set('port', process.env.PORT || 9000);
 

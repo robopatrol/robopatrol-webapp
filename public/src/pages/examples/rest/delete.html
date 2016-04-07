@@ -1,0 +1,8 @@
+<template>
+  <h1>DELETE /api/examples/:id</h1>
+  <p class="lead">Are you sure?</p>
+  <form role="form" submit.delegate="submit()">
+    <a route-href="route: detail; params.bind: { id: id }" class="btn btn-default">Cancel</a>
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </form>
+</template>

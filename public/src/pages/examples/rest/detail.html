@@ -1,0 +1,9 @@
+<template>
+  <h1>GET /api/examples/:id</h1>
+  <a route-href="route: edit; params.bind: { id: item.id }" class="btn btn-default"><i class="fa fa-edit"></i> Edit</a>
+  <a route-href="route: delete; params.bind: { id: item.id }" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+  <p>
+    ID: ${item.id}<br/>
+    Name: ${item.name}
+  </p>
+</template>

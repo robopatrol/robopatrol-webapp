@@ -1,13 +1,39 @@
+import 'fetch';
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
+import {HttpClient} from 'aurelia-fetch-client';
 
 import {Ros} from 'lib/ros';
 
 
-@inject(Ros)
+@inject(HttpClient, Ros)
 export class App {
 
-  constructor(ros) {
+  constructor(http, ros) {
+    http.configure(config => {
+      config
+        .withBaseUrl('api/')
+        .withDefaults({
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .withInterceptor({
+          request(request) {
+            return request;
+          },
+          response(response) {
+            // TODO: take care of other 2XX success codes
+            if (response.status !== 200) {
+            	throw response;
+            } else {
+            	return response;
+            }
+          }
+        });
+    });
+
+    this.http = http;
     this.ros = ros;
   }
 
@@ -19,6 +45,7 @@ export class App {
       { route: 'connect', name: 'connect', moduleId: 'pages/connect', nav: false, title: 'Connect', connected: false },
 
       { route: 'ros-infos', name: 'ros-infos', moduleId: 'pages/ros-infos/index', nav: true, title: 'ROS Infos', connected: true },
+      { route: 'examples', name: 'examples', moduleId: 'pages/examples/index', nav: true, title: 'Examples', connected: false },
 
       { route: 'dummy', name: 'dummy', moduleId: 'pages/dummy', nav: true, title: 'Dummy Move', connected: true },
 
