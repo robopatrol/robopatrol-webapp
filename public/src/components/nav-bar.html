@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-header">
-      <button if.bind="connected" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#robopatrol-navbar-collapse">
+      <button if.bind="router.navigation.length > 0" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#robopatrol-navbar-collapse">
         <span class="sr-only">Toggle Navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -14,11 +14,13 @@
     </div>
 
     <div class="collapse navbar-collapse" id="robopatrol-navbar-collapse">
-      <ul if.bind="connected" class="nav navbar-nav">
-        <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-          <a data-toggle="collapse" data-target="#robopatrol-navbar-collapse.in" href.bind="row.href">${row.title}
-          </a>
-        </li>
+      <ul if.bind="router.navigation.length > 0" class="nav navbar-nav">
+        <template repeat.for="row of router.navigation">
+          <li if.bind="row.config.connected ? connected : true" class="${row.isActive ? 'active' : ''}">
+            <a data-toggle="collapse" data-target="#robopatrol-navbar-collapse.in" href.bind="row.href">${row.title}
+            </a>
+          </li>
+        </template>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
