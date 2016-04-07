@@ -47,8 +47,6 @@ export class App {
       { route: 'ros-infos', name: 'ros-infos', moduleId: 'pages/ros-infos/index', nav: true, title: 'ROS Infos', connected: true },
       { route: 'examples', name: 'examples', moduleId: 'pages/examples/index', nav: true, title: 'Examples', connected: false },
 
-      { route: 'dummy', name: 'dummy', moduleId: 'pages/dummy', nav: true, title: 'Dummy Move', connected: true },
-
       { route: 'disconnect', name: 'disconnect', moduleId: 'pages/disconnect', nav: true, title: 'Disconnect', connected: true },
     ]);
 
