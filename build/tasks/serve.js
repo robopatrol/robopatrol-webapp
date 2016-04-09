@@ -5,7 +5,7 @@ var nodemon = require('gulp-nodemon');
 gulp.task('nodemon', function (cb) {
   var called = false;
   return nodemon({
-    script: 'app.js'
+    script: './server/app.js'
   })
   .on('start', function onStart() {
     if (!called) {

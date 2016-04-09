@@ -3,7 +3,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var debug = require('debug')('robopatrol-webapp');
 
-var api = require('./server/routes')
+var api = require('./routes')
 
 var app = express();
 
@@ -15,7 +15,7 @@ var allowCrossDomain = function(req, res, next) {
     next();
 };
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(allowCrossDomain);
