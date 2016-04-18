@@ -1,0 +1,14 @@
+<template>
+  <require from="components/teleop-button"></require>
+  <div class="container">
+    <h1>Manual driving</h1>
+    <div class="" repeat.for="buttonRow of buttons">
+      <button repeat.for="button of buttonRow"
+              mousedown.delegate="buttonHandle($event, button.action)"
+              mouseup.delegate="buttonHandle($event, button.action)"
+              mouseleave.trigger="buttonHandle($event, button.action)"
+              type="button" class="btn btn-default btn-large">
+        <i class="fa fa-${button.icon}"></i>
+    </div>
+  </div>
+</template>

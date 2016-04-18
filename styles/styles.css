@@ -173,3 +173,12 @@ div.au-stagger {
     opacity: 1;
   }
 }
+
+.rotate-left-45:before {
+    display: block;
+    transform: rotate(-45deg);
+}
+.rotate-right-45:before {
+    display: block;
+    transform: rotate(45deg);
+}
