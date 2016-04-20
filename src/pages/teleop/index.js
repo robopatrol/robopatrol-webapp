@@ -118,4 +118,21 @@ export class Teleop {
     this.twist.angular.z = angular;
     this.cmdVel.publish(this.twist);
   }
+
+  attached() {
+    // Create the main viewer.
+    var viewer = new ROS2D.Viewer({
+      divID : 'map',
+      width : 400,
+      height : 400
+    });
+
+    // Setup the nav client.
+    var nav = NAV2D.OccupancyGridClientNav({
+      ros : this.ros,
+      rootObject : viewer.scene,
+      viewer : viewer,
+      serverName : '/move_base'
+    });
+  }
 }

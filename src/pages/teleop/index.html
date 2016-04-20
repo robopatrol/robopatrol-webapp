@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>Manual driving</h1>
+    <div id="map"></div>
     <div class="" repeat.for="buttonRow of buttons">
       <button repeat.for="button of buttonRow"
               mousedown.delegate="buttonHandle($event, button.action)"
