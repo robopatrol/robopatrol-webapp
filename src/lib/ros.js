@@ -50,3 +50,7 @@ export class Ros extends ROSLIB.Ros {
 export class Topic extends ROSLIB.Topic {}
 
 export class Message extends ROSLIB.Message {}
+
+export class Service extends ROSLIB.Service {}
+
+export class ServiceRequest extends ROSLIB.ServiceRequest {}
