@@ -1,113 +1,77 @@
 <html>
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-<script type="text/javascript">
-var waypoints = [];
-var color = "#FF0000";
-var counter = 0;
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        function Point(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        var waypoints = [];
+        var color = "#FF0000";
+        var img = new Image();
+        img.src = "map.jpg";
 
-$(document).ready(function() {
-	var ctx = document.querySelector("canvas").getContext("2d");
-	var img = new Image();
-	img.onload = function(){
-	    ctx.drawImage(img,0,0);
-	};
-	img.src = "map.jpg";
+        $(document).ready(function () {
+            var ctx = document.querySelector("canvas").getContext("2d");
+            ctx.fillStyle = color;
+            ctx.strokeStyle = color + Math.floor((Math.random() * 9) + 1);
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0);
+            };
 
-	$("#path").contextmenu(function(event) {
-		killPoint(event, document.querySelector("canvas"), ctx);
-	});
-	$("#path").click(function(event) {
-		draw(event, document.querySelector("canvas"), ctx);
-	});
-});
+            $("#path").contextmenu(function (event) {
+                deleteWaypoint(event, document.querySelector("canvas"), ctx);
+                draw(document.querySelector("canvas"), ctx);
+            });
+            $("#path").click(function (event) {
+                setWaypoint(event, document.querySelector("canvas"));
+                draw(document.querySelector("canvas"), ctx);
+            });
+        });
 
-function draw(e, canvas, ctx){
-    var pos = getMousePos(canvas, e);
-    posx = pos.x;
-    posy = pos.y;
+        function setWaypoint(e, canvas) {
+            var pos = getMousePos(canvas, e);
+            waypoints.push(new Point(pos.x, pos.y));
+        }
 
-	waypoints[counter] = pos;
+        function deleteWaypoint(e, canvas) {
+            var pos = getMousePos(canvas, e);
+            var blur = 3;
+            waypoints.forEach(function (point) {
+                if (Math.abs(pos.x - point.x) < blur || Math.abs(pos.y - point.y) < blur)
+                    waypoints.splice(waypoints.indexOf(point), 1);
+            });
+        }
 
-    ctx.fillStyle = color;
-    ctx.fillRect(posx, posy, 4, 4);
-    ctx.fillText("Waypoint "+counter, posx, posy);
-    drawLineOnce(canvas, ctx, counter);
-    counter++;
-}
+        function getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
 
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top
-    };
-}
+        function draw(canvas, ctx) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
 
-function drawLineOnce(canvas, ctx, counter){
-	var newPos;
-
-	if(counter > 0)
-	{
-		ctx.strokeStyle = color+Math.floor((Math.random() * 9) + 1);
-		ctx.lineWidth = 1;
-		ctx.setLineDash([5, 5]);
-		ctx.beginPath();
-
-			var oldPos = waypoints[0];
-			ctx.moveTo(oldPos.x, oldPos.y)
-
-		for(i = 0; i <= counter; i++)
-		{
-			newPos = waypoints[i];
-			ctx.lineTo(newPos.x, newPos.y);
-		}
-
-		ctx.stroke();
-		ctx.closePath();
-	}
-}
-
-function killPoint(e, canvas, ctx){
-	var pos = getMousePos(canvas, e);
-    var blur = 4;
-    var offset = 0;
-    var target = 0;
-	var tmpArray = [];
-    posx = pos.x;
-    posy = pos.y;
-
-    for(var i = 0; i <= waypoints.length+1; i++)
-    {
-    	for(var offset = 0; offset <= blur; offset++)
-    	{
-			var tmpPos = waypoints[i];
-    		if(tmpPos.x == posx+offset)
-    		{
-				for(var ii = 0; ii <= waypoints.length+1; ii++)
-				{
-					if(ii == i)
-					{
-						waypoints.splice(ii, 1);
-						alert("deleted "+ii);
-					}
-				}
-				alert(waypoints.toString());
-				alert("sadf "+waypoints[waypoints.length-1]);
-				counter--;
-    		}
-    	}
-    }
-	color = "#FFaaa";
-    drawLineOnce(canvas, ctx, counter);
-}
-
-</script>
-<head><h1>test</h1></head>
+            ctx.beginPath();
+            for (var i = 0; i < waypoints.length; i++) {
+                ctx.fillRect(waypoints[i].x, waypoints[i].y, 4, 4);
+                ctx.fillText("Waypoint " + i + 1, waypoints[i].x, waypoints[i].y);
+                ctx.lineTo(waypoints[i].x, waypoints[i].y);
+            }
+            ctx.stroke();
+            ctx.closePath();
+        }
+    </script>
+    <head><h1>test</h1></head>
 <body id="body" oncontextmenu="return false;">
-	<canvas id="path" height="480" width="448" style="position: absolute; z-index: 1;">
-	</canvas>
-	<canvas id="map" height="480" width="448" style="position: absolute; z-index: 0;">
-		<img src="map.jpg">
-	</canvas>
+    <canvas id="path" height="480" width="448" style="position: absolute; z-index: 1;">
+    </canvas>
+    <canvas id="map" height="480" width="448" style="position: absolute; z-index: 0;">
+        <img src="map.jpg">
+    </canvas>
 </body>
 </html>
