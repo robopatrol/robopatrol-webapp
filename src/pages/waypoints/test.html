@@ -5,7 +5,16 @@
             this.x = x;
             this.y = y;
         }
+        function Day(dayNo){
+            this.day = dayNo;
+        }
+        function Time(time){
+            this.time = time;
+        }
         var waypoints = [];
+        var days = [];
+        var time = [];
+        var dateTime = [];
         var color = "#FF0000";
         var img = new Image();
         img.src = "map.jpg";
@@ -27,6 +36,15 @@
             $("#path").click(function (event) {
                 setWaypoint(event, document.querySelector("canvas"));
                 draw(document.querySelector("canvas"), ctx);
+            });
+            $("#btnSave").click(function(event) {
+                getDays();
+                getTime();
+                alert("day 'n' time: "+JSON.stringify(days));
+                savePatrol();
+            });
+            $("#btnLoad").click(function(event) {
+                loadPatrol();
             });
         });
 
@@ -65,13 +83,96 @@
             ctx.stroke();
             ctx.closePath();
         }
+        function savePatrol(){
+            //schedule
+            //create Days and Time JSON object
+            alert("concat: "+JSON.stringify(days.concat(time)));
+            $.ajax({
+                type: "POST",
+                url: "localhost:9998/schdule",
+                data: JSON.stringify(days.concat(time)),
+                contentType: "application/json; charset=utf-8",
+                //crossDomain: true,
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+
+                    alert("everything ok!");
+                },
+                error: function (jqXHR, status) {
+                // error handler
+                console.log(jqXHR);
+                alert("failed: " + status.code);
+                }
+            });
+            //waypoints
+            alert("saving: \n"+JSON.stringify(waypoints));
+            $.ajax({
+                type: "POST",
+                url: "localhost:9998/waypoints",
+                data: JSON.stringify(waypoints),
+                contentType: "application/json; charset=utf-8",
+                //crossDomain: true,
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+
+                    alert("everything ok!");
+                },
+                error: function (jqXHR, status) {
+                // error handler
+                console.log(jqXHR);
+                alert("failed: " + status.code);
+                }
+            });
+        }
+
+        function loadPatrol(){
+            alert("loading:");
+             $.ajax({
+                type: "GET",
+                url: "localhost:9000",
+                contentType: "application/json; charset=utf-8",
+                //crossDomain: true,
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+
+                    alert("success");
+                },
+                error: function (jqXHR, status) {
+                    // error handler
+                    console.log(jqXHR);
+                    alert("failed: " + status.code);
+                }
+            }).then(function(data){
+                alert("data read: "+data.toString());
+            });
+        }
+        function getDays(){
+            $("input:checkbox[name=days]:checked").each(function(){
+                days.push(new Day($(this).val()));
+            });
+        }
+        function getTime(){
+            time.push(new Time(document.getElementById("time").value));
+        }
     </script>
     <head><h1>test</h1></head>
 <body id="body" oncontextmenu="return false;">
     <canvas id="path" height="480" width="448" style="position: absolute; z-index: 1;">
     </canvas>
-    <canvas id="map" height="480" width="448" style="position: absolute; z-index: 0;">
+    <canvas id="map" height="480" width="448" style="z-index: 0;">
         <img src="map.jpg">
     </canvas>
+    <form id="days">
+        <input type="checkbox" name="days" value="0">Mo</input>
+        <input type="checkbox" name="days" value="1">Di</input>
+        <input type="checkbox" name="days" value="2">Mi</input>
+        <input type="checkbox" name="days" value="3">Do</input>
+        <input type="checkbox" name="days" value="4">Fr</input>
+        <input type="checkbox" name="days" value="5">Sa</input>
+        <input type="checkbox" name="days" value="6">So</input>
+        <input type="time" id="time"></input>
+    </form>
+    <button id="btnSave">Save</button>
+    <button id="btnLoad">Load</button>
 </body>
 </html>
