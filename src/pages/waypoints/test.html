@@ -11,10 +11,13 @@
         function Time(time){
             this.time = time;
         }
+        function Name(name){
+            this.name = name;
+        }
         var waypoints = [];
         var days = [];
         var time = [];
-        var dateTime = [];
+        var names = [];
         var color = "#FF0000";
         var img = new Image();
         img.src = "map.jpg";
@@ -40,7 +43,7 @@
             $("#btnSave").click(function(event) {
                 getDays();
                 getTime();
-                alert("day 'n' time: "+JSON.stringify(days));
+                getName();
                 savePatrol();
             });
             $("#btnLoad").click(function(event) {
@@ -86,11 +89,11 @@
         function savePatrol(){
             //schedule
             //create Days and Time JSON object
-            alert("concat: "+JSON.stringify(days.concat(time)));
+            alert("concat: "+JSON.stringify(days.concat(time, names)));
             $.ajax({
                 type: "POST",
                 url: "localhost:9998/schdule",
-                data: JSON.stringify(days.concat(time)),
+                data: JSON.stringify(days.concat(time, names)),
                 contentType: "application/json; charset=utf-8",
                 //crossDomain: true,
                 dataType: "json",
@@ -154,6 +157,9 @@
         function getTime(){
             time.push(new Time(document.getElementById("time").value));
         }
+        function getName(){
+            names.push(new Name(document.getElementById("name").value));
+        }
     </script>
     <head><h1>test</h1></head>
 <body id="body" oncontextmenu="return false;">
@@ -171,6 +177,7 @@
         <input type="checkbox" name="days" value="5">Sa</input>
         <input type="checkbox" name="days" value="6">So</input>
         <input type="time" id="time"></input>
+        <input type="text" id="name" placeholder="Patrol Name"></input>
     </form>
     <button id="btnSave">Save</button>
     <button id="btnLoad">Load</button>
