@@ -23,16 +23,16 @@ body {
   margin-top: 50px;
 }
 
-.navbar-brand {
-  padding: 5px !important;
+.navbar-brand.logo {
+  padding: 5px;
 }
 
-.navbar-brand span {
+.navbar-brand.logo span {
   vertical-align: 60%;
   padding: 0px 5px 0px;
 }
 
-.fa-home::before {
+.fa-logo::before {
     background-image: url('/img/page/logo.png');
     background-size: 40px 40px;
     background-repeat: no-repeat;
