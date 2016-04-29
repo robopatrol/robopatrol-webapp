@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 
-import {Ros, Topic, Message} from 'lib/ros';
+import {Ros, Topic, Message} from '../../lib/ros';
 
 @inject(Ros)
 export class Dummy {

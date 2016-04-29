@@ -3,7 +3,7 @@ import {Router} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {HttpClient} from 'aurelia-fetch-client';
 
-import {Ros} from 'lib/ros';
+import {Ros} from '../lib/ros';
 
 
 @inject(Ros, Router, HttpClient, EventAggregator)

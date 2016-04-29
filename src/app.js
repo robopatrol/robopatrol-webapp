@@ -2,7 +2,7 @@ import 'fetch';
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
 
-import {Ros} from 'lib/ros';
+import {Ros} from './lib/ros';
 
 
 export class App {
