@@ -3,7 +3,7 @@ import {inject} from 'aurelia-framework';
 import {Ros} from '../../lib/ros';
 
 @inject(Ros)
-export class RosServices {
+export class RosNodes {
   items = [];
 
   constructor(ros) {
