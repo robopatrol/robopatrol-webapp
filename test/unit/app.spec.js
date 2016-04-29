@@ -1,12 +1,18 @@
-import {App} from '../../src/app';
+import {App, ConnectionStep} from '../../src/app';
 
 class RouterStub {
+  pipelineSteps = [];
+
   configure(handler) {
     handler(this);
   }
 
   map(routes) {
     this.routes = routes;
+  }
+
+  addPipelineStep(name, step) {
+    this.pipelineSteps.push(step);
   }
 }
 
@@ -25,18 +31,18 @@ describe('the App module', () => {
   });
 
   it('configures the router title', () => {
-    expect(sut.router.title).toEqual('Aurelia');
+    expect(sut.router.title).toEqual('Robopatrol');
   });
 
-  it('should have a welcome route', () => {
-    expect(sut.router.routes).toContain({ route: ['', 'welcome'], name: 'welcome',  moduleId: 'welcome', nav: true, title: 'Welcome' });
+  it('should have a home route', () => {
+    expect(sut.router.routes).toContain({ route: ['', 'home'], name: 'home', moduleId: 'pages/home', nav: true, title: 'Home', connected: true });
   });
 
-  it('should have a users route', () => {
-    expect(sut.router.routes).toContain({ route: 'users', name: 'users', moduleId: 'users', nav: true, title: 'Github Users' });
+  it('should have a connect route', () => {
+    expect(sut.router.routes).toContain({ route: 'connect', name: 'connect', moduleId: 'pages/connect', nav: false, title: 'Connect', connected: false });
   });
 
-  it('should have a child router route', () => {
-    expect(sut.router.routes).toContain({ route: 'child-router', name: 'child-router', moduleId: 'child-router', nav: true, title: 'Child Router' });
+  it('should have a disconnect route', () => {
+    expect(sut.router.routes).toContain({ route: 'disconnect', name: 'disconnect', moduleId: 'pages/disconnect', nav: true, title: 'Disconnect', connected: true });
   });
 });
