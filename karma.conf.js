@@ -23,7 +23,13 @@ module.exports = function(config) {
     },
 
     // list of files / patterns to load in the browser
-    files: [],
+    files: [
+      "http://cdn.robotwebtools.org/EaselJS/current/easeljs.min.js",
+      "http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js",
+      "http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js",
+      "http://cdn.robotwebtools.org/ros2djs/current/ros2d.min.js",
+      "http://cdn.robotwebtools.org/nav2djs/current/nav2d.min.js"
+    ],
 
     // list of files to exclude
     exclude: [],
