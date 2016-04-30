@@ -2,8 +2,7 @@
   <div class="container">
     <h1>Patrol Schedule</h1>
     <div>
-      <button type="button" class="btn btn-primary" click.delegate="submit()">Save changes</button>
-      <button type="button" class="btn btn-default" click.delegate="addEntry()">+</button>
+      <button type="button" class="btn btn-default" click.delegate="addSchedule()"><i class="fa fa-plus"></i></button>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -11,6 +10,8 @@
             <th>Name</th>
             <th>Cron</th>
             <th>Description</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

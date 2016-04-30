@@ -1,10 +1,11 @@
 import {inject} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
-import {EditPerson} from './editPerson';
+import {EditSchedule} from './editSchedule';
 
+@inject(DialogService)
 export class Schedule {
-  static inject = [DialogService];
 
+  //dummy entries
   entries = [{
     id: 1,
     name: "Hourly Patrol",
@@ -19,22 +20,23 @@ export class Schedule {
 
   constructor(dialogService) {
     this.dialogService = dialogService;
+    // TODO load exiting schedules from server and add to entries
   }
 
-  person = { firstName: 'Wade', middleName: 'Owen', lastName: 'Watts' };
-  submit(){
-    this.dialogService.open({ viewModel: EditPerson, model: this.person}).then(response => {
+  addSchedule() {
+    this.dialogService.open({
+      viewModel: EditSchedule
+    }).then(response => {
       if (!response.wasCancelled) {
         console.log('good - ', response.output);
-      } else {
-        console.log('bad');
+        //TODO save new schedule via REST, only add to entries (see line below) if save was successful
+        this.entries.push({
+          id: '', //should be assigned by server
+          name: response.output.name,
+          description: response.output.description,
+          cron: response.output.cron
+        });
       }
-      console.log(response.output);
     });
   }
-
-  addEntry() {
-    this.entries.push({id: -1, name: "", description: "", cron:""});
-  }
-
 }
