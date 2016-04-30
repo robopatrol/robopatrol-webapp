@@ -5,7 +5,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 
 
 @inject(HttpClient, Router, EventAggregator)
-export class Detail {
+export class Create {
   name = null;
 
   constructor(http, router, ea) {
