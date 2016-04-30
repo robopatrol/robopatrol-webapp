@@ -1,20 +1,6 @@
 import {App, ConnectionStep} from '../../src/app';
 
-class RouterStub {
-  pipelineSteps = [];
-
-  configure(handler) {
-    handler(this);
-  }
-
-  map(routes) {
-    this.routes = routes;
-  }
-
-  addPipelineStep(name, step) {
-    this.pipelineSteps.push(step);
-  }
-}
+import {RouterStub} from './stubs/router-stub'
 
 describe('the App module', () => {
   var sut;
