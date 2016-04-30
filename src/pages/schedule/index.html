@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Patrol Schedule</h1>
     <div>
-      <button type="button" class="btn btn-primary disabled">Save changes</button>
+      <button type="button" class="btn btn-primary" click.delegate="submit()">Save changes</button>
       <button type="button" class="btn btn-default" click.delegate="addEntry()">+</button>
       <table class="table table-striped">
         <thead>
@@ -19,6 +19,8 @@
             <td>${entry.name}</td>
             <td>${entry.cron}</td>
             <td>${entry.description}</td>
+            <td><button class="btn btn-info btn-xs">Edit</button></td>
+            <td><button class="btn btn-danger btn-xs">Delete</button></td>
           </tr>
         </tbody>
       </table>

@@ -1,4 +1,10 @@
+import {inject} from 'aurelia-framework';
+import {DialogService} from 'aurelia-dialog';
+import {EditPerson} from './editPerson';
+
 export class Schedule {
+  static inject = [DialogService];
+
   entries = [{
     id: 1,
     name: "Hourly Patrol",
@@ -11,8 +17,23 @@ export class Schedule {
     cron: "0 15 * * *"
   }];
 
+  constructor(dialogService) {
+    this.dialogService = dialogService;
+  }
+
+  person = { firstName: 'Wade', middleName: 'Owen', lastName: 'Watts' };
+  submit(){
+    this.dialogService.open({ viewModel: EditPerson, model: this.person}).then(response => {
+      if (!response.wasCancelled) {
+        console.log('good - ', response.output);
+      } else {
+        console.log('bad');
+      }
+      console.log(response.output);
+    });
+  }
+
   addEntry() {
-    console.log("foobar");
     this.entries.push({id: -1, name: "", description: "", cron:""});
   }
 
