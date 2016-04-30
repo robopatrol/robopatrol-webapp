@@ -1,41 +1,11 @@
 import 'fetch';
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
-import {HttpClient} from 'aurelia-fetch-client';
 
-import {Ros} from 'lib/ros';
+import {Ros} from './lib/ros';
 
 
-@inject(HttpClient, Ros)
 export class App {
-
-  constructor(http, ros) {
-    http.configure(config => {
-      config
-        .withBaseUrl('api/')
-        .withDefaults({
-          headers: {
-            'Accept': 'application/json'
-          }
-        })
-        .withInterceptor({
-          request(request) {
-            return request;
-          },
-          response(response) {
-            // TODO: take care of other 2XX success codes
-            if (response.status !== 200) {
-            	throw response;
-            } else {
-            	return response;
-            }
-          }
-        });
-    });
-
-    this.http = http;
-    this.ros = ros;
-  }
 
   configureRouter(config, router) {
     config.title = 'Robopatrol';

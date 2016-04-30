@@ -1,4 +1,7 @@
-# Robo Patrol
+# Robo Patrol Web Application
+
+[![Travis Build Status](https://travis-ci.org/robopatrol/robopatrol-webapp.svg?branch=master)](https://travis-ci.org/robopatrol/robopatrol-webapp)
+[![Coverage Status](https://coveralls.io/repos/github/robopatrol/robopatrol-webapp/badge.svg?branch=master)](https://coveralls.io/github/robopatrol/robopatrol-webapp?branch=master)
 
 ## Running The App
 
