@@ -8,7 +8,10 @@ import {Ros} from '../lib/ros';
 
 @inject(Ros, Router, HttpClient, EventAggregator)
 export class Connect {
-  url = 'localhost:9090';
+  heading = 'Connect to Robopatrol';
+  wsUrl = 'localhost:9090';
+  restUrl = 'localhost:9998';
+  nextRoute = '/';
   autoConnect = true;
 
   constructor(ros, router, http, ea) {
@@ -27,30 +30,29 @@ export class Connect {
 
   submit() {
     //TODO: url validation (?)
-    return this.ros.connect(`ws:\/\/${this.url}`).then(() => {
-      // TODO: http configuration
-      /*http.configure(config => {
-        config
-          .withBaseUrl(`http:\/\/${this.url}`)
-          .withDefaults({
-            headers: {
-              'Accept': 'application/json'
+    this.http.configure(config => {
+      config
+        .withBaseUrl(`http:\/\/${this.restUrl}\/`)
+        .withDefaults({
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .withInterceptor({
+          request(request) {
+            return request;
+          },
+          response(response) {
+            // TODO: take care of other 2XX success codes
+            if (response.status !== 200) {
+            	throw response;
+            } else {
+            	return response;
             }
-          })
-          .withInterceptor({
-            request(request) {
-              return request;
-            },
-            response(response) {
-              // TODO: take care of other 2XX success codes
-              if (response.status !== 200) {
-              	throw response;
-              } else {
-              	return response;
-              }
-            }
-        });
-      });*/
+          }
+      });
+    });
+    return this.ros.connect(`ws:\/\/${this.wsUrl}`).then(() => {
       this.ea.publish('notification', {type: "success", msg: "Connected to websocket server."});
       this.router.navigate(this.nextRoute);
     }).catch((error) => {
