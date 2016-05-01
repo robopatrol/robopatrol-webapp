@@ -1,9 +1,9 @@
 import {inject} from 'aurelia-framework';
 
-import {Ros} from 'lib/ros';
+import {Ros} from '../../lib/ros';
 
 @inject(Ros)
-export class RosServices {
+export class RosParams {
   items = [];
 
   constructor(ros) {
