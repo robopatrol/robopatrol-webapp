@@ -1,10 +1,16 @@
 <template>
   <div class="container">
-    <h1>Connect to ROS</h1>
+    <h1>${heading}</h1>
     <form role="form" submit.delegate="submit()">
       <div class="form-group">
-        <input type="text" value.bind="url" class="form-control" id="url" placeholder="URL">
-        <p class="help-block">Enter the URL/IP and port of your turtlebot ros-bridge websocket server.</p>
+        <label for="wsUrl">Rosbridget Websocket URL</label>
+        <input type="text" value.bind="wsUrl" class="form-control" id="wsUrl" placeholder="Rosbridge Websocket URL">
+        <p class="help-block">Enter the URL/IP and port of the ros-bridge websocket server.</p>
+      </div>
+      <div class="form-group">
+        <label for="restUrl">REST Server URL</label>
+        <input type="text" value.bind="restUrl" class="form-control" id="restUrl" placeholder="REST Server URL">
+        <p class="help-block">Enter the URL/IP and port of the robopatrol REST server.</p>
       </div>
       <button type="submit" class="btn btn-primary">Connect</button>
     </form>
