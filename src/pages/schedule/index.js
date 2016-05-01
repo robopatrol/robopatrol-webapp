@@ -2,14 +2,18 @@ import {inject} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
 import {EditSchedule} from './editSchedule';
 import {Prompt} from './prompt';
+import {HttpClient, json} from 'aurelia-fetch-client';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(DialogService)
+@inject(DialogService, HttpClient, EventAggregator)
 export class Schedule {
 
   entries = [];
 
-  constructor(dialogService) {
+  constructor(dialogService, http, ea) {
     this.dialogService = dialogService;
+    this.http = http;
+    this.ea = ea;
   }
 
   activate() {
@@ -17,65 +21,90 @@ export class Schedule {
   }
 
   loadSchedules() {
-    // TODO load exiting schedules from server and add to entries
-    //dummy entries
-    this.entries = [{
-      id: 1,
-      name: "Hourly Patrol",
-      description: "This should keep the cats at bay!",
-      cron: "0 * * * * "
-    }, {
-      id: 2,
-      name: "Daily Patrol",
-      description: "Make sure the dog doesn't do anything stupid",
-      cron: "0 15 * * *"
-    }];
+    //  load exiting schedules from server and add to entries
+   return this.http.fetch('schedule', {
+        method: 'get'
+      })
+      .then(response => response.json())
+      .then(body => {
+        this.entries = body;
+      });
   }
 
   addSchedule() {
     this.dialogService.open({
       viewModel: EditSchedule
     }).then(response => {
+      console.log('then');
       if (!response.wasCancelled) {
-        console.log('good - ', response.output);
-        //TODO save new schedule via REST, only add to entries (see line below) if save was successful
-        this.entries.push({
-          id: '', //should be assigned by server
-          name: response.output.name,
-          description: response.output.description,
-          cron: response.output.cron
-        });
+        console.log("calling post");
+        this.post(response.output);
+        console.log('called');
       }
     });
   }
 
-  editSchedule(entry) {
-    console.log("editing: ");
-    console.log(entry);
+  post(schedule) {
+    console.log('this is post');
+    return this.http.fetch('schedule', {
+        method: 'post',
+        body: json(schedule),
+        'media-type': 'application/json'
+      })
+      .then(response => response.json())
+      .then(body => {
+        this.entries.push({
+          id: body.id,
+          name: body.name,
+          description: body.description,
+          cron: body.cron
+        });
+      });
+  }
 
+  editSchedule(entry) {
     this.dialogService.open({
       viewModel: EditSchedule,
       model: entry
     }).then(response => {
       if (!response.wasCancelled) {
-        console.log('good - ', response.output);
-        //TODO  save changes to REST server
-        //TODO if save not successful, refresh entries list
+        this.put(entry);
+      } else {
+        this.loadSchedules();
       }
     });
+  }
 
+  put(schedule) {
+    return this.http.fetch('schedule/' + schedule.id, {
+        method: 'put',
+        body: json(schedule),
+        'media-type': 'application/json'
+      });
   }
 
   deleteSchedule(entry) {
     this.dialogService.open({
       viewModel: Prompt,
-      model: {question:'Do you really want to delete this schedule?', title: 'Delete?'}
+      model: {
+        question: 'Do you really want to delete this schedule?',
+        title: 'Delete?'
+      }
     }).then(response => {
-        if (!response.wasCancelled) {
-          console.log("deleting:");
-          console.log(entry);
-          //TODO send delete to REST server, if not successful  refresh entries list
-        }
-      });
-    }
+      if (!response.wasCancelled) {
+        this.delete(entry);
+      }
+    });
   }
+
+  delete(schedule) {
+    return this.http.fetch('schedule/'+schedule.id, {
+        method: 'delete',
+        body: json(schedule),
+        'media-type': 'application/json'
+      })
+      .then(body => {
+        this.loadSchedules();
+      });
+  }
+}
