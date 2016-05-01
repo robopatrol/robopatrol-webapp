@@ -8,7 +8,7 @@
 To run the app, follow these steps.
 
 1. Ensure that [NodeJS](http://nodejs.org/) version 4 or greater is installed. This provides the platform on which the build tooling runs.
-> **Note:**  The NodeJS version of Ubuntu 14.04 is really old and does not work. To install a newer version, follow  [these instructions](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions).
+> **Note:**  The NodeJS/NPM version of Ubuntu 14.04 is really old and does not work. Therefore remove already installed NodeJS/NPM packages (sudo apt-get remove nodejs npm) and follow [these instructions](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions), to install a newer version of NodeJS/NPM.
 
 2. From the project folder, execute the following command:
 
