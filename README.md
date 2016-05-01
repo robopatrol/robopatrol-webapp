@@ -56,7 +56,7 @@ To run the simulation and rosbridge websocket, follow these steps.
 2. Launch Robopatrol Simulation
 
   ```shell
-  roslaunch robopatrol robopatrol_simulation.launch
+  roslaunch robopatrol simulation.launch
   ```
 
 ## Running The App under Electron
