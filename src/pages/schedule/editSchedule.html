@@ -1,44 +1,60 @@
 <template>
   <ai-dialog>
     <ai-dialog-body>
-      <h2>Edit schedule</h2>
+      <h2>${title}</h2>
       <form>
         <div class="form-group">
           <label for="name">Name</label>
           <input value.bind="schedule.name" type="text" class="form-control" id="name" placeholder="Name" attach-focus="true">
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="cron">Cron</label>
           <input value.bind="schedule.cron" type="text" class="form-control" id="cron" placeholder="0 12 * * *">
           <p class="help-block">Standard cron-style string:
-              <pre>
-     * ┌─────────── min (0 - 59)
-     * │ ┌──────────── hour (0 - 23)
-     * │ │ ┌───────────── day of month (1 - 31)
-     * │ │ │ ┌────────────── month (1 - 12)
-     * │ │ │ │ ┌─────────────── day of week (0 - 6) (0 to 6 are Sunday to Saturday)
-     * │ │ │ │ │
-     * * * * * *
+            <pre>
+              * ┌─────────── min (0 - 59)
+              * │ ┌──────────── hour (0 - 23)
+              * │ │ ┌───────────── day of month (1 - 31)
+              * │ │ │ ┌────────────── month (1 - 12)
+              * │ │ │ │ ┌─────────────── day of week (0 - 6) (0 to 6 are Sunday to Saturday)
+              * │ │ │ │ │
+              * * * * * *
             </pre>
-        </p>
-        </div>
+          </p>
+        </div> -->
         <div class="form-group">
           <label for="description">Description</label>
-          <input value.bind="schedule.description" type="text" class="form-control" id="description" placeholder="Description">
+          <textarea class="form-control" rows="3" value.bind="schedule.description" type="text" class="form-control" id="description" placeholder="Description">
+          </textarea>
         </div>
-        <!-- <div class="checkbox">
-    <label>
-      <input type="checkbox"> Check me out
-    </label>
-  </div> -->
-  
-  <!-- TODO make cron selection more user-friendly with checkboxes & drop-downs -->
+
+        <div class="form-group">
+          <label>Minute</label>
+          <select class="form-control" value.bind="schedule.minute">
+            <option>*</option>
+            <option repeat.for="i of 60">${i}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Hour</label>
+          <select class="form-control" value.bind="schedule.hour">
+            <option>*</option>
+            <option repeat.for="i of 24">${i}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Day of the Week</label>
+          <select class="form-control" value.bind="schedule.day">
+            <option>*</option>
+            <option repeat.for="i of ['Monday', 'Tuesday']">${i}</option>
+          </select>
+        </div>
       </form>
     </ai-dialog-body>
 
     <ai-dialog-footer>
       <button class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
-      <button class="btn btn-primary" click.trigger="controller.ok(schedule)">Ok</button>
+      <button class="btn btn-primary" click.trigger="convert(schedule)">Ok</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>

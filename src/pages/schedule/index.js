@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
 import {EditSchedule} from './editSchedule';
+import {Prompt} from './prompt';
 
 @inject(DialogService)
 export class Schedule {
@@ -66,10 +67,15 @@ export class Schedule {
   }
 
   deleteSchedule(entry) {
-    console.log("deleting:");
-    console.log(entry);
-
-    //TODO confirm deletion
-    //TODO if confirmed, send delete to REST server, if not successful  refresh entries list
+    this.dialogService.open({
+      viewModel: Prompt,
+      model: {question:'Do you really want to delete this schedule?', title: 'Delete?'}
+    }).then(response => {
+        if (!response.wasCancelled) {
+          console.log("deleting:");
+          console.log(entry);
+          //TODO send delete to REST server, if not successful  refresh entries list
+        }
+      });
+    }
   }
-}
