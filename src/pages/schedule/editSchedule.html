@@ -53,14 +53,14 @@
           <label>Month</label>
           <select class="form-control" value.bind="schedule.month">
             <option>*</option>
-            <option repeat.for="i of 12">${i}</option>
+            <option repeat.for="i of 12">${i+1}</option>
           </select>
         </div>
         <div class="form-group">
           <label>Day of the Week</label>
           <select class="form-control" value.bind="schedule.day">
             <option>*</option>
-            <option repeat.for="i of ['Monday', 'Tuesday']">${i}</option>
+            <option repeat.for="i of ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]">${i}</option>-
           </select>
         </div>
       </form>
