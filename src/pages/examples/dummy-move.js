@@ -1,9 +1,9 @@
 import {inject} from 'aurelia-framework';
 
-import {Ros, Topic, Message} from 'lib/ros';
+import {Ros, Topic, Message} from '../../lib/ros';
 
 @inject(Ros)
-export class Dummy {
+export class DummyMove {
   heading = 'Dummy Move';
   speed = '0.5';
 
@@ -33,4 +33,3 @@ export class Dummy {
     this.cmdVel.publish(this.twist);
   }
 }
-

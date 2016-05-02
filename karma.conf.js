@@ -1,8 +1,11 @@
 // Karma configuration
 // Generated on Fri Dec 05 2014 16:49:29 GMT-0500 (EST)
+var isparta = require('isparta');
+var paths = require('./build/paths');
+var babelOptions = require('./build/babel-options');
 
 module.exports = function(config) {
-  config.set({
+  var configuration = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -23,7 +26,13 @@ module.exports = function(config) {
     },
 
     // list of files / patterns to load in the browser
-    files: [],
+    files: [
+      "http://cdn.robotwebtools.org/EaselJS/current/easeljs.min.js",
+      "http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js",
+      "http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js",
+      "http://cdn.robotwebtools.org/ros2djs/current/ros2d.min.js",
+      "http://cdn.robotwebtools.org/nav2djs/current/nav2d.min.js"
+    ],
 
     // list of files to exclude
     exclude: [],
@@ -33,7 +42,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'test/**/*.js': ['babel'],
-      'src/**/*.js': ['babel']
+      'src/**/*.js': ['babel', 'sourcemap', 'coverage']
     },
     'babelPreprocessor': {
       options: {
@@ -50,7 +59,29 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['coverage', 'progress'],
+    coverageReporter: {
+      instrumenters: {
+        isparta: isparta
+      },
+
+      instrumenter: {
+        [paths.source]: 'isparta'
+      },
+
+      dir: 'build/reports/coverage/',
+
+      reporters: [{
+        type: 'text-summary'
+      }, {
+        type: 'html',
+        subdir: 'html'
+      }, {
+        type: 'lcovonly',
+        subdir: 'lcov',
+        file: 'report-lcovonly.txt'
+      }]
+    },
 
     // web server port
     port: 9876,
@@ -67,10 +98,23 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
+
     browsers: ['Chrome'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false
-  });
+  };
+  
+  if (process.env.TRAVIS) {
+    configuration.browsers = ['Chrome_travis_ci', 'Firefox'];
+  }
+
+  config.set(configuration);
 };

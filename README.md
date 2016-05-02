@@ -1,4 +1,7 @@
-# Robo Patrol
+# Robo Patrol Web Application
+
+[![Travis Build Status](https://travis-ci.org/robopatrol/robopatrol-webapp.svg?branch=master)](https://travis-ci.org/robopatrol/robopatrol-webapp)
+[![Coverage Status](https://coveralls.io/repos/github/robopatrol/robopatrol-webapp/badge.svg?branch=master)](https://coveralls.io/github/robopatrol/robopatrol-webapp?branch=master)
 
 ## Running The App
 
@@ -104,26 +107,17 @@ The configuration is done by ```bundles.js``` file.
 Under ```options``` of ```dist/aurelia``` add ```rev: true``` to add bundle file revision/version.
 
 ## Running The Unit Tests
-
-To run the unit tests, first ensure that you have followed the steps above in order to install all dependencies and successfully build the library. Once you have done that, proceed with these additional steps:
-
-1. Ensure that the [Karma](http://karma-runner.github.io/) CLI is installed. If you need to install it, use the following command:
-
-  ```shell
-  npm install -g karma-cli
-  ```
-2. Install Aurelia libs for test visibility:
+You can run the tests with this command:
 
 ```shell
-jspm install aurelia-framework
-jspm install aurelia-http-client
-jspm install aurelia-router
+  gulp test
 ```
-3. You can now run the tests with this command:
 
-  ```shell
-  karma start
-  ```
+Or with code coverage:
+
+```shell
+  gulp cover
+```
 
 ## Running The E2E Tests
 Integration tests are performed with [Protractor](http://angular.github.io/protractor/#/).
