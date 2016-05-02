@@ -1,7 +1,7 @@
 import {inject} from 'aurelia-framework';
 
 import {Ros} from 'lib/ros';
-import {DOM} from 'aurelia-pal'
+import {Point} from './point';
 import $ from 'jquery';
 
 @inject(Ros)
@@ -9,17 +9,14 @@ export class MapNavigation {
 
 	waypoints = [];
 	borderpoints = [];
-	days = [];
-	time = [];
-	names = [];
 	colorWaypoints = "#FF0000";
-	colorBorderpoints = "#3b0000";
+	colorBorderpoints = "#ffffff";
 	/*img = new Image();
 	img.src = "map.jpg";*/
 
-  constructor(ros, dom) {
+  constructor(ros, point) {
     this.ros = ros;
-    this.dom = dom;
+    this.point = point;
   }
 
   attached() {
@@ -46,46 +43,41 @@ export class MapNavigation {
       });
       console.log("Coords:\nx: " + coords.x + "\ny: " + coords.y + "\nz: " + coords.z);
     });
+
+    var ctx = document.querySelector("#path").getContext("2d");
+    var canvas = document.querySelector("#path");
+   	//var ctx = $("#path").getContext("2d");
+
+
+    $("#path").contextmenu( (event)=> {
+        this.deleteWaypoint(event, canvas, ctx);
+        this.draw(canvas, ctx);
+    });
+    $("#path").click( (event)=> {
+        if(!event.shiftKey)
+        {
+            this.setWaypoint(event, canvas);
+            this.draw(canvas, ctx);
+        }
+    });
+    $("#path").click( (event)=> {
+        if(event.shiftKey)
+        {
+            this.setBorderpoint(event, canvas);
+            this.draw(canvas, ctx);
+        }
+    });
   }
-
-	bind() {
-    	$(document).ready(function () {
-    		alert("jQuery ready");
-            //var ctx = document.querySelector("canvas").getContext("2d");
-            /*img.onload = function () {
-                ctx.drawImage(img, 0, 0);
-            };*/
-
-            $("#path").contextmenu(function (event) {
-                deleteWaypoint(event, document.querySelector("canvas"), ctx);
-                draw(document.querySelector("canvas"), ctx);
-            });
-            $("#path").click(function (event) {
-                if(!event.shiftKey)
-                {
-                    setWaypoint(event, document.querySelector("canvas"));
-                    draw(document.querySelector("canvas"), ctx);
-                }
-            });
-            $("#path").click(function (event) {
-                if(event.shiftKey)
-                {
-                    setBorderpoint(event, document.querySelector("canvas"));
-                    draw(document.querySelector("canvas"), ctx);
-                }
-            });
-        });
-  	}
 
   	//waypoint-stuff
   	setWaypoint(e, canvas) {
-    	var pos = getMousePos(canvas, e);
+    	var pos = this.getMousePos(canvas, e);
     	this.waypoints.push(new Point(pos.x, pos.y));
 	}
 	deleteWaypoint(e, canvas) {
-	    var pos = getMousePos(canvas, e);
+	    var pos = this.getMousePos(canvas, e);
 	    var blur = 3;
-	    this.waypoints.forEach(function (point) {
+	    this.waypoints.forEach( (point)=> {
 	        if (Math.abs(pos.x - point.x) < blur || Math.abs(pos.y - point.y) < blur)
 	            this.waypoints.splice(this.waypoints.indexOf(point), 1);
 	    });
@@ -94,13 +86,13 @@ export class MapNavigation {
 	//borders
 	****************************/
 	setBorderpoint(e, canvas) {
-	    var pos = getMousePos(canvas, e);
+	    var pos = this.getMousePos(canvas, e);
 	    this.borderpoints.push(new Point(pos.x, pos.y));
 	}
 	deleteBorderpoint(e, canvas) {
-	    var pos = getMousePos(canvas, e);
+	    var pos = this.getMousePos(canvas, e);
 	    var blur = 3;
-	    this.borderpoints.forEach(function (point) {
+	    this.borderpoints.forEach( (point) => {
 	        if (Math.abs(pos.x - point.x) < blur || Math.abs(pos.y - point.y) < blur)
 	            this.borderpoints.splice(this.borderpoints.indexOf(point), 1);
 	    });
@@ -119,9 +111,8 @@ export class MapNavigation {
 	draw(canvas, ctx) {
 	    ctx.clearRect(0, 0, canvas.width, canvas.height);
 	    //ctx.drawImage(img, 0, 0);
-		attached();
 	    ctx.fillStyle = this.colorWaypoints;
-	    ctx.strokeStyle = this.colorWaypoints + Math.floor((Math.random() * 9) + 1);
+	    ctx.strokeStyle = this.colorWaypoints;
 	    ctx.lineWidth = 1;
 	    ctx.setLineDash([5, 5]);
 
@@ -136,37 +127,22 @@ export class MapNavigation {
 	    ctx.closePath();
 
 	    //border
-	    ctx.fillStyle = colorBorderpoints;
+	    ctx.fillStyle = this.colorBorderpoints;
 	    ctx.beginPath();
 	    for (var i = 0; i < this.borderpoints.length; i++) {
-	        ctx.fillRect(borderpoints[i].x, this.borderpoints[i].y, 4, 4);
+	        ctx.fillRect(this.borderpoints[i].x, this.borderpoints[i].y, 4, 4);
 	        ctx.fillText("Border " + i + 1, this.borderpoints[i].x, this.borderpoints[i].y);
 	        ctx.lineTo(this.borderpoints[i].x, this.borderpoints[i].y);
 	    }
 	    ctx.stroke();
 	    ctx.closePath();
 	}
-  	point(x, y) {
-    this.x = x;
-    this.y = y;
-	}
-	day(dayNo){
-	    this.day = dayNo;
-	}
-	time(time){
-	    this.time = time;
-	}
-	name(name){
+
+	/*name(name){
 	    this.name = name;
-	}
+	}*/
     btnSave(){
-	    getDays();
-	    getTime();
-	    getName();
-	    savePatrol();
-	}
-	btnLoad(){
-    	loadPatrol();
+	    this.savePatrol();
 	}
 	/****************************
 	//save and load
@@ -175,10 +151,11 @@ export class MapNavigation {
 	    //schedule
 	    //create Days and Time JSON object
 	    alert("yo");
-	    getDays();
-	    getTime();
-	    getName();
-	    alert("concat: "+JSON.stringify(this.days.concat(this.time, this.names)));
+	    this.getDays();
+	    this.getTime();
+	    this.getName();
+	    //alert("concat: "+JSON.stringify(this.days.getDay().concat(this.time, this.names)));
+	    alert(JSON.stringify("days "+this.days));
 	    $.ajax({
 	        type: "POST",
 	        url: "localhost:9998/schdule",
@@ -235,39 +212,5 @@ export class MapNavigation {
 	        }
 	    });
 	}
-	loadPatrol(){
-	    alert("loading:");
-	     $.ajax({
-	        type: "GET",
-	        url: "localhost:9998",
-	        contentType: "application/json; charset=utf-8",
-	        //crossDomain: true,
-	        dataType: "json",
-	        success: function (data, status, jqXHR) {
 
-	            alert("success");
-	        },
-	        error: function (jqXHR, status) {
-	            // error handler
-	            console.log(jqXHR);
-	            alert("failed: " + status.code);
-	        }
-	    }).then(function(data){
-	        alert("data read: "+data.toString());
-	    });
-	}
-	/*************************************
-	//getters for additional informations
-	*************************************/
-	getDays(){
-	    $("input:checkbox[name=days]:checked").each(function(){
-	        this.days.push(new day(${this.days}));
-	    });
-	}
-	getTime(){
-	    this.time.push(new time(${this.time}));
-	}
-	getName(){
-	    this.names.push(new name(${this.patrolName}));
-	}
 }

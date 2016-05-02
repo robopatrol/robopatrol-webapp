@@ -1,21 +1,9 @@
 <template>
-  <div class="container">
+  <div class="container" oncontextmenu="return false;">
     <h1>Map Navigation Example</h1>
     <p>Double-Click to move turtlebot. Single-Click to show coordinates in debug console</p>
-    <div id="nav"></div>
-	<div id="path"></div>
-    <form id="days">
-        <input type="checkbox" name="days" value="0">Mo</input>
-        <input type="checkbox" name="days" value="1">Di</input>
-        <input type="checkbox" name="days" value="2">Mi</input>
-        <input type="checkbox" name="days" value="3">Do</input>
-        <input type="checkbox" name="days" value="4">Fr</input>
-        <input type="checkbox" name="days" value="5">Sa</input>
-        <input type="checkbox" name="days" value="6">So</input>
-        <input type="time" id="time"></input>
-        <input type="text" id="name" placeholder="Patrol Name"></input>
-    </form>
-    <button id="btnSave" click.delegate=savePatrol()>Save</button>
-    <button id="btnLoad" click.delegate=loadPatrol()>Load</button>
+    <div id="nav">
+        <canvas id="path" style="z-index:1; position: absolute; height: 600px; width: 800px;"></canvas>
+    </div>
   </div>
 </template>
