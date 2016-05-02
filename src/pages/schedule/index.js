@@ -35,17 +35,13 @@ export class Schedule {
     this.dialogService.open({
       viewModel: EditSchedule
     }).then(response => {
-      console.log('then');
       if (!response.wasCancelled) {
-        console.log("calling post");
         this.post(response.output);
-        console.log('called');
       }
     });
   }
 
   post(schedule) {
-    console.log('this is post');
     return this.http.fetch('schedule', {
         method: 'post',
         body: json(schedule),
