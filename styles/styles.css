@@ -72,6 +72,34 @@ section {
   margin: 12px 24px 0 6px;
 }
 
+/******* STARTPAGE *******/
+.startpage {
+  padding: 0px;
+}
+
+.icons {
+  float: left;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 30px;
+  text-align: center;
+  width: 29%;
+  height: 29%;
+  color: #373737;
+}
+
+.icons:hover {
+    text-decoration: none;
+    color: #777777;
+}
+
+.icons img {
+    border: none;
+    padding-top: 10px;
+    width: 55%;
+}
+
 .pictureDetail {
   max-width: 425px;
 }
