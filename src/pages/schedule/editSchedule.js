@@ -12,13 +12,13 @@ export class EditSchedule {
   };
 
   dayOfWeek = {
-    Monday: 1,
-    Tuesday: 2,
-    Wednesday: 3,
-    Thursday: 4,
-    Friday: 5,
-    Saturday: 6,
-    Sunday: 7
+    Monday: 0,
+    Tuesday: 1,
+    Wednesday: 2,
+    Thursday: 3,
+    Friday: 4,
+    Saturday: 5,
+    Sunday: 6
   };
 
   constructor(controller) {
@@ -34,10 +34,17 @@ export class EditSchedule {
   }
 
   convert(schedule){
-    schedule.cron = schedule.minute + ' ' + schedule.hour + ' * * ' + ' ' + (schedule.day === '*' ? '*' : this.dayOfWeek[schedule.day]);
+    schedule.cron = schedule.second + ' ' +
+      schedule.minute + ' ' +
+      schedule.hour + ' * ' +
+      schedule.month + ' ' +
+      (schedule.day === '*' ? '*' : this.dayOfWeek[schedule.day]);
+
+    delete schedule.second;
     delete schedule.minute;
     delete schedule.hour;
     delete schedule.day;
+    delete schedule.month;
     this.controller.ok(schedule);
   }
 }

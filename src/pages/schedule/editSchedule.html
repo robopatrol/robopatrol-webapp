@@ -29,6 +29,13 @@
         </div>
 
         <div class="form-group">
+          <label>Second</label>
+          <select class="form-control" value.bind="schedule.second">
+            <option>*</option>
+            <option repeat.for="i of 60">${i}</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label>Minute</label>
           <select class="form-control" value.bind="schedule.minute">
             <option>*</option>
@@ -40,6 +47,13 @@
           <select class="form-control" value.bind="schedule.hour">
             <option>*</option>
             <option repeat.for="i of 24">${i}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Month</label>
+          <select class="form-control" value.bind="schedule.month">
+            <option>*</option>
+            <option repeat.for="i of 12">${i}</option>
           </select>
         </div>
         <div class="form-group">
