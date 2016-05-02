@@ -4,8 +4,12 @@ import {Redirect} from 'aurelia-router';
 
 import {Ros} from './lib/ros';
 
-
+@inject(Ros)
 export class App {
+
+  constructor(ros){
+    this.ros = ros;
+  }
 
   configureRouter(config, router) {
     config.title = 'Robopatrol';
