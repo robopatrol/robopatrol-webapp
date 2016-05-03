@@ -9,8 +9,8 @@ import {Ros} from '../lib/ros';
 @inject(Ros, Router, HttpClient, EventAggregator)
 export class Connect {
   heading = 'Connect to Robopatrol';
-  wsUrl = 'localhost:9090';
-  restUrl = 'localhost:9998';
+  wsUrl = `${window.location.hostname}:9090`;
+  restUrl = `${window.location.hostname}:9998`;
   nextRoute = '/';
   autoConnect = true;
 
