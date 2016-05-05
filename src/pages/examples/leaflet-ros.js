@@ -1,7 +1,6 @@
 import {inject, bindable} from 'aurelia-framework';
-
 import {MapService} from '../../services/map-service';
-import {OccupancyGridLayer} from '../../lib/ros';
+
 
 @inject(MapService)
 export class LeafletRos {
@@ -13,17 +12,17 @@ export class LeafletRos {
   }
 
   attached() {
-    this.map = L.map('maptest', {
-      crs: L.CRS.Simple,
-      editable: true,
-      zoom: 1
-    });
+    this.mapService.getStaticImage().then((image) => {
+      let bounds = [[0, 0], [image.width * image.resolution, image.height * image.resolution]];
 
-    this.occupancyGridLayer = new OccupancyGridLayer().addTo(this.map);
+      this.map = L.map('maptest', {
+        crs: L.CRS.Simple,
+        editable: true
+      });
 
-    this.mapService.getMap().then((data) => {
-      this.occupancyGridLayer.update(data);
-      this.map.panTo(this.occupancyGridLayer.getCenter());
+      this.imageLayer = L.imageOverlay(image.data, bounds).addTo(this.map);
+
+      this.map.fitBounds(this.imageLayer.getBounds());
     });
   }
 
@@ -45,7 +44,7 @@ export class LeafletRos {
 
   show() {
     // create random path
-    let bounds = this.occupancyGridLayer.getBounds();
+    let bounds = this.imageLayer.getBounds();
     let xMax = bounds.getEast();
     let yMax = bounds.getNorth();
     let latLngs = [];
