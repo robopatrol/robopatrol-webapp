@@ -100,13 +100,15 @@ export class OccupancyGridLayer extends L.Layer {
 
   update(message) {
     this._info = message.info;
-    this._data = message.data.map((value, index) => {
-      return {
-        latlng: L.latLng(Math.floor(index / message.info.width), index % message.info.width),
-        value: value
-      };
-    }).filter((point) => {
-      return point.value !== 0;
+    this._data = [];
+
+    message.data.forEach((value, index) => {
+      if (value !== 0) {
+        this._data.push({
+          latlng: L.latLng(Math.floor(index / message.info.width), index % message.info.width),
+          value: value
+        });
+      }
     });
 
     return this.redraw();
