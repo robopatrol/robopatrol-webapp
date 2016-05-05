@@ -1,18 +1,13 @@
 import {inject} from 'aurelia-framework';
 
-import {Ros, Topic, OccupancyGridLayer} from '../../lib/ros';
+import {MapService} from '../../services/map-service';
+import {OccupancyGridLayer} from '../../lib/ros';
 
-@inject(Ros)
+@inject(MapService)
 export class LeafletRos {
 
-  constructor(ros) {
-    this.ros = ros;
-
-    this.mapTopic = new Topic({
-      ros: this.ros,
-      name: '/map',
-      messageType: 'nav_msgs/OccupancyGrid'
-    });
+  constructor(mapService) {
+    this.mapService = mapService;
   }
 
   attached() {
@@ -27,9 +22,9 @@ export class LeafletRos {
       console.log("Lat/Y: " + e.latlng.lat + " Lng/X: " + e.latlng.lng);
     });
 
-    this.mapTopic.subscribe((message) => {
-      this.occupancyGridLayer.update(message);
       this.map.fitBounds(this.occupancyGridLayer.getBounds());
+    this.mapService.getMap().then((data) => {
+      this.occupancyGridLayer.update(data);
     });
   }
   deactivate() {
