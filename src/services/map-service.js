@@ -12,7 +12,8 @@ export class MapService {
     this.staticMapService= new Service({
       ros: this.ros,
       name : '/static_map',
-      serviceType : 'nav_msgs/GetMap'
+      serviceType : 'nav_msgs/GetMap',
+      compression : 'png'
     });
 
     this.request = new ServiceRequest();
