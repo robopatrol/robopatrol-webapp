@@ -1,19 +1,26 @@
 import {App, ConnectionStep} from '../../src/app';
 
 import {RouterStub} from './stubs/router-stub'
+import {RosStub} from './stubs/ros-stub'
 
 describe('the App module', () => {
   var sut;
   var mockedRouter;
+  var mockedRos;
 
   beforeEach(() => {
     mockedRouter = new RouterStub();
-    sut = new App();
+    mockedRos = new RosStub();
+    sut = new App(mockedRos);
     sut.configureRouter(mockedRouter, mockedRouter);
   });
 
   it('contains a router property', () => {
     expect(sut.router).toBeDefined();
+  });
+
+  it('contains a ros property', () => {
+    expect(sut.ros).toBeDefined();
   });
 
   it('configures the router title', () => {
