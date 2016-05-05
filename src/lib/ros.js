@@ -98,6 +98,10 @@ export class OccupancyGridLayer extends L.Layer {
     return L.latLngBounds([[0,0], [this._info.width, this._info.height]]);
   }
 
+  getCenter() {
+    return L.latLng([this._info.width/2, this._info.height/2]);
+  }
+
   update(message) {
     this._info = message.info;
     this._data = [];
