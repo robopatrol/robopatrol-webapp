@@ -13,7 +13,8 @@ export class LeafletRos {
   attached() {
     this.map = L.map('maptest', {
       crs: L.CRS.Simple,
-      editable: true
+      editable: true,
+      zoom: 1
     });
 
     this.occupancyGridLayer = new OccupancyGridLayer().addTo(this.map);
@@ -22,9 +23,9 @@ export class LeafletRos {
       console.log("Lat/Y: " + e.latlng.lat + " Lng/X: " + e.latlng.lng);
     });
 
-      this.map.fitBounds(this.occupancyGridLayer.getBounds());
     this.mapService.getMap().then((data) => {
       this.occupancyGridLayer.update(data);
+      this.map.panTo(this.occupancyGridLayer.getCenter());
     });
   }
   deactivate() {
