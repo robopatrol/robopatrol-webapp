@@ -1,4 +1,4 @@
-import {Ros, Topic, Message, Service, ServiceRequest, OccupancyGridLayer} from '../../src/lib/ros';
+import {Ros, Topic, Message, Service, ServiceRequest} from '../../src/lib/ros';
 
 
 describe('the lib ros module', () => {
@@ -38,13 +38,5 @@ describe('the lib ros service request module', () => {
 
   beforeEach(() => {
     sut = new ServiceRequest();
-  });
-});
-
-describe('the lib ros occupancy grid layer module', () => {
-  var sut;
-
-  beforeEach(() => {
-    sut = new OccupancyGridLayer();
   });
 });
