@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 
-import {Ros} from 'lib/ros';
+import {Ros} from '../../lib/ros';
 import {Point} from './point';
 import $ from 'jquery';
 

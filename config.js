@@ -6,9 +6,7 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
-<<<<<<< HEAD
 
-=======
   meta: {
     "bootstrap": {
       "deps": [
@@ -16,7 +14,7 @@ System.config({
       ]
     }
   },
->>>>>>> 1a5449f4983369b6db8d47e3a79e9065ce0b158b
+
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0-beta.1.2.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1.2.0",
