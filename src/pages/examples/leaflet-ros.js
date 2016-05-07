@@ -5,25 +5,41 @@ import {MapService} from '../../services/map-service';
 @inject(MapService)
 export class LeafletRos {
 
-  @bindable editLayer = null;
+  editLayer = null;
 
   constructor(mapService) {
     this.mapService = mapService;
   }
 
-  attached() {
-    this.mapService.getStaticImage().then((image) => {
-      let bounds = [[0, 0], [image.width * image.resolution, image.height * image.resolution]];
+  activate() {
+    // return promise to delay view activiation until map data is loaded
+    return new Promise((resolve, reject) => {
+      this.mapService.getStaticMapImage().then((image) => {
+        // calculate the map extent
+        let bounds = [[0, 0], [image.width * image.resolution, image.height * image.resolution]];
 
-      this.map = L.map('maptest', {
-        crs: L.CRS.Simple,
-        editable: true
+        // create a leaflet image layer with base64 encoded data
+        this.imageLayer = L.imageOverlay(image.data, bounds);
+
+        return resolve();
+      }).catch(() => {
+        console.warn("Loading map data failed.")
+        return reject()
       });
-
-      this.imageLayer = L.imageOverlay(image.data, bounds).addTo(this.map);
-
-      this.map.fitBounds(this.imageLayer.getBounds());
     });
+  }
+
+  attached() {
+    // create leaflet map after dom is ready
+    this.map = L.map('maptest', {
+      crs: L.CRS.Simple,
+      editable: true
+    });
+
+    this.map.addLayer(this.imageLayer);
+
+    // zoom map to image extent
+    this.map.fitBounds(this.imageLayer.getBounds());
   }
 
   deactivate() {
@@ -37,7 +53,8 @@ export class LeafletRos {
 
   save() {
     if (this.editLayer && !this.map.editTools.drawing()) {
-      // save data
+      // save data xy = array of y,x values
+      alert("Save: " + his.editLayer.getLatLngs());
       this.editLayer.disableEdit();
     }
   }
