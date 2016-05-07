@@ -15,7 +15,7 @@ export class MapImage {
 @inject(Ros)
 export class MapService {
 
-  staticImage = null;
+  staticMapImage = null;
 
   constructor(ros) {
     this.ros = ros;
@@ -30,22 +30,21 @@ export class MapService {
     this.staticMapServiceRequest = new ServiceRequest();
   }
 
-  getStaticImage(force) {
+  getStaticMapImage(force) {
     return new Promise((resolve, reject) => {
-      if (this.staticImage && !force) {
-        return resolve(this.staticImage);
+      if (this.staticMapImage && !force) {
+        return resolve(this.staticMapImage);
       } else {
         this.staticMapService.callService(this.staticMapServiceRequest, (response) => {
-          let info = response.map.info;
-          let data = this.occupancyGridToImageData(response.map);
-          this.staticImage = new MapImage(data, info.width, info.height, info.resolution);
-          return resolve(this.staticImage);
+          this.staticMapImage = this.convertOccupancyGridToMapImage(response.map);
+          return resolve(this.staticMapImage);
         });
       }
     });
   }
 
-  occupancyGridToImageData(occupancyGridMsg) {
+  convertOccupancyGridToMapImage(occupancyGridMsg) {
+    let resolution = occupancyGridMsg.info.resolution;
     let width = occupancyGridMsg.info.width;
     let height = occupancyGridMsg.info.height;
     let maxValue = 100;
@@ -77,11 +76,11 @@ export class MapService {
       imageData.data[++i] = value;
       // alpha
       imageData.data[++i] = 255;
-      
+
     });
 
     ctx.putImageData(imageData, 0, 0);
 
-    return canvas.toDataURL("image/png");
+    return new MapImage(canvas.toDataURL("image/png"), width, height, resolution);
   }
 }
