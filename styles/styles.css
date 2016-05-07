@@ -201,3 +201,8 @@ div.au-stagger {
     display: block;
     transform: rotate(45deg);
 }
+
+/** styles for Auralia Dialog plugin */
+ai-dialog-overlay.active {
+  background-color:rgba(0, 0, 0, 0.5);
+}
