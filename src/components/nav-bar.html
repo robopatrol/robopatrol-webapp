@@ -1,4 +1,4 @@
-<template>
+<template bindable="router,ros">
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-header">
       <button if.bind="router.navigation.length > 0" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#robopatrol-navbar-collapse">
@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse" id="robopatrol-navbar-collapse">
       <ul if.bind="router.navigation.length > 0" class="nav navbar-nav">
         <template repeat.for="row of router.navigation">
-          <li if.bind="row.config.connected ? connected : true" class="${row.isActive ? 'active' : ''}">
+          <li if.bind="row.config.connected ? ros.isConnected : true" class="${row.isActive ? 'active' : ''}">
             <a data-toggle="collapse" data-target="#robopatrol-navbar-collapse.in" href.bind="row.href">${row.title}
             </a>
           </li>
