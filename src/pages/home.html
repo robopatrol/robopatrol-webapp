@@ -2,30 +2,20 @@
   <div class="container">
     <h1>${heading}</h1>
     <div class="startpage">
-    	<a class="icons">
-    		<h2>${home}</h2>
-    		<img src="../img/page/home-button.png" />
-    	</a>
-    	<a class="icons">
-    		<h2>${charging}</h2>
-    		<img src="../img/page/battery-almost-full.png" />
-    	</a>
-    	<a class="icons">
-    		<h2>${route}</h2>
-    		<img src="../img/page/gps.png" />
-    	</a>
-    	<a class="icons">
-    		<h2>${images}</h2>
-    		<img src="../img/page/picture.png" />
-    	</a>
-    	<a class="icons">
-    		<h2>${error}</h2>
-    		<img src="../img/page/danger-sign.png" />
-    	</a>
-    	<a class="icons">
-    		<h2>${config}</h2>
-    		<img src="../img/page/three-gears-of-configuration-tools.png" />
-    	</a>
+        <template repeat.for="row of router.navigation">
+            <a if.bind="row.settings.startpage && !row.settings.last" class="icons" href.bind="row.href">
+                  <h2>${row.title}</h2>
+                  <img src=${row.settings.icon} />
+            </a>
+        </template>
+        <div class="hruler"></div>
+        <h2>${patrol}</h2>
+        <template repeat.for="row of router.navigation">
+            <a if.bind="row.settings.startpage && row.settings.last" class="icons" href.bind="row.href">
+                  <h2>${row.title}</h2>
+                  <img src=${row.settings.icon} />
+            </a>
+        </template>
     </div>
   </div>
 </template>
