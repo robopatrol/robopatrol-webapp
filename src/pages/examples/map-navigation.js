@@ -12,9 +12,11 @@ export class MapNavigation {
   colorWaypoints = "green";
   colorBorderpoints = "red";
 
-  constructor(ros, point) {
+  constructor(ros, point, waypoints, borderpoints) {
     this.ros = ros;
     this.point = point;
+    this.waypoints = waypoints;
+    this.borderpoints = borderpoints;
   }
 
   attached() {
