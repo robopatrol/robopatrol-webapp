@@ -15,11 +15,9 @@ export class LeafletRos {
     // return promise to delay view activiation until map data is loaded
     return new Promise((resolve, reject) => {
       this.mapService.getStaticMapImage().then((image) => {
-        // calculate the map extent
-        let bounds = [[0, 0], [image.width * image.resolution, image.height * image.resolution]];
 
         // create a leaflet image layer with base64 encoded data
-        this.imageLayer = L.imageOverlay(image.data, bounds);
+        this.imageLayer = L.imageOverlay(image.data, image.bounds);
 
         return resolve();
       }).catch(() => {
@@ -62,13 +60,13 @@ export class LeafletRos {
   show() {
     // create random path
     let bounds = this.imageLayer.getBounds();
-    let xMax = bounds.getEast();
-    let yMax = bounds.getNorth();
+    let xMax = Math.abs(bounds.getEast()) + Math.abs(bounds.getWest());
+    let yMax = Math.abs(bounds.getNorth()) + Math.abs(bounds.getSouth());
     let latLngs = [];
 
     for (let i = 0; i < 7; i++) {
-      let x = Math.round(Math.random() * xMax);
-      let y = Math.round(Math.random() * yMax);
+      let x = Math.random() * xMax - Math.abs(bounds.getWest());
+      let y = Math.random() * yMax - Math.abs(bounds.getSouth());
       // Lat (Latitude) means North/Sourth = y ; Lng (Longitude) means Ease/West = x
       latLngs.push(L.latLng(y, x));
     }
