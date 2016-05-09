@@ -52,7 +52,7 @@ export class LeafletRos {
   save() {
     if (this.editLayer && !this.map.editTools.drawing()) {
       // save data xy = array of y,x values
-      alert("Save: " + his.editLayer.getLatLngs());
+      alert("Save: " + this.editLayer.getLatLngs());
       this.editLayer.disableEdit();
     }
   }
