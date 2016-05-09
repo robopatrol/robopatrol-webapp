@@ -11,6 +11,7 @@ export class MapNavigation {
   borderpoints = [];
   colorWaypoints = "green";
   colorBorderpoints = "red";
+  patrolSaved = false;
 
   constructor(ros, point, waypoints, borderpoints) {
     this.ros = ros;
@@ -50,18 +51,21 @@ export class MapNavigation {
     ctx.canvas.height = 400;
 
     $("#path").contextmenu((event)=> {
+    	patrolSaved = false;
         this.deleteWaypoint(event, canvas, ctx);
         this.deleteBorderpoint(event, canvas, ctx);
         this.draw(canvas, ctx);
     });
     $("#path").click((event)=> {
         if(!event.shiftKey) {
+        	patrolSaved = false;
             this.setWaypoint(event, canvas);
             this.draw(canvas, ctx);
         }
     });
     $("#path").click((event)=> {
         if(event.shiftKey) {
+        	patrolSaved = false;
             this.setBorderpoint(event, canvas);
             this.draw(canvas, ctx);
         }
@@ -148,31 +152,10 @@ export class MapNavigation {
   //save and load
   ****************************/
   savePatrol(){
-    //schedule
     //create Days and Time JSON object
-    alert("yo");
-    this.getDays();
-    this.getTime();
-    this.getName();
-    //alert("concat: "+JSON.stringify(this.days.getDay().concat(this.time, this.names)));
-    alert(JSON.stringify("days "+this.days));
-    $.ajax({
-        type: "POST",
-        url: "localhost:9998/schdule",
-        data: JSON.stringify(this.days.concat(this.time, this.names)),
-        contentType: "application/json; charset=utf-8",
-        //crossDomain: true,
-        dataType: "json",
-        success: function (data, status, jqXHR) {
-            alert("everything ok!");
-        },
-        error: function (jqXHR, status) {
-        // error handler
-        console.log(jqXHR);
-        alert("failed: " + status.code);
-        }
-    });
     //waypoints
+    savedFirstPart = false;
+
     alert("saving waypoints: \n"+JSON.stringify(this.waypoints));
     $.ajax({
         type: "POST",
@@ -183,6 +166,7 @@ export class MapNavigation {
         dataType: "json",
         success: function (data, status, jqXHR) {
             alert("everything ok!");
+            savedFirstPart  = true;
         },
         error: function (jqXHR, status) {
         // error handler
@@ -201,6 +185,10 @@ export class MapNavigation {
         dataType: "json",
         success: function (data, status, jqXHR) {
             alert("everything ok!");
+            if(savedFirst)
+            {
+            	patrolSaved = trueM
+            }
         },
         error: function (jqXHR, status) {
         // error handler
