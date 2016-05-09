@@ -4,41 +4,34 @@ import {RosStub, ServiceStub} from './stubs/ros-stub';
 
 describe('the map image', () => {
   var sut;
+  var msgInfo = { width: 4, height: 2, resolution: 0.5, origin: { position: { x: 0, y: 0 }} };
 
   beforeEach(() => {
-    sut = new MapImage('base64', 1900, 1080, 0.3);
+    sut = new MapImage(msgInfo, 'base64');
   });
 
   it('contains a data property', () => {
     expect(sut.data).toBeDefined();
   });
 
-  it('contains a width property', () => {
-    expect(sut.width).toBeDefined();
+  it('contains a info property', () => {
+    expect(sut.info).toBeDefined();
   });
 
-  it('contains a height property', () => {
-    expect(sut.height).toBeDefined();
-  });
-
-  it('contains a resolution property', () => {
-    expect(sut.resolution).toBeDefined();
+  it('contains a bounds property', () => {
+    expect(sut.bounds).toBeDefined();
   });
 
   it('configures the data property', () => {
     expect(sut.data).toEqual('base64');
   });
 
-  it('configures the width property', () => {
-    expect(sut.width).toEqual(1900);
+  it('configures the info property', () => {
+    expect(sut.info).toEqual(msgInfo);
   });
 
-  it('configures the height property', () => {
-    expect(sut.height).toEqual(1080);
-  });
-
-  it('configures the resolution property', () => {
-    expect(sut.resolution).toEqual(0.3);
+  it('configures the bounds property', () => {
+    expect(sut.bounds).toEqual(L.latLngBounds([0, 0], [1, 2]));
   });
 });
 
@@ -110,7 +103,7 @@ describe('the map service get static map function', () => {
 
 describe('the map service grid convert function', () => {
   var sut;
-  var msgInfo = { width: 4, height: 2, resolution: 0.5 };
+  var msgInfo = { width: 4, height: 2, resolution: 0.5, origin: { position: { x: 0, y: 0 }} };
   var msgData = [100, 100, 100, 0, -1, -1, 0, 0];
   var image;
 

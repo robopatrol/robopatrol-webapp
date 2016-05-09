@@ -4,11 +4,13 @@ import {Ros, Service, ServiceRequest} from '../lib/ros';
 
 export class MapImage {
 
-  constructor(data, width, height, resolution) {
+  constructor(info, data) {
+    this.info = info;
     this.data = data;
-    this.width = width;
-    this.height = height;
-    this.resolution = resolution;
+    this.bounds = L.latLngBounds([
+      [info.origin.position.y, info.origin.position.x],
+      [info.origin.position.y + info.height * info.resolution, info.origin.position.x + info.width * info.resolution]
+    ]);
   }
 }
 
@@ -44,7 +46,6 @@ export class MapService {
   }
 
   convertOccupancyGridToMapImage(occupancyGridMsg) {
-    let resolution = occupancyGridMsg.info.resolution;
     let width = occupancyGridMsg.info.width;
     let height = occupancyGridMsg.info.height;
     let maxValue = 100;
@@ -81,6 +82,6 @@ export class MapService {
 
     ctx.putImageData(imageData, 0, 0);
 
-    return new MapImage(canvas.toDataURL("image/png"), width, height, resolution);
+    return new MapImage(occupancyGridMsg.info, canvas.toDataURL("image/png"));
   }
 }
