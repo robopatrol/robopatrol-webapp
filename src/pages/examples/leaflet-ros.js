@@ -1,17 +1,36 @@
 import {inject, bindable} from 'aurelia-framework';
 import {MapService} from '../../services/map-service';
+import {DialogController} from 'aurelia-dialog';
 
 
-@inject(MapService)
+@inject(MapService, DialogController)
 export class LeafletRos {
 
   editLayer = null;
+  
+  schedule = {
+    id: '',
+    name: '',
+    description: '',
+    cron: ''
+  };
 
-  constructor(mapService) {
+  dayOfWeek = {
+    Monday: 0,
+    Tuesday: 1,
+    Wednesday: 2,
+    Thursday: 3,
+    Friday: 4,
+    Saturday: 5,
+    Sunday: 6
+  };
+
+  constructor(mapService, controller) {
     this.mapService = mapService;
+    this.controller = controller;
   }
 
-  activate() {
+  activate(schedule) {
     // return promise to delay view activiation until map data is loaded
     return new Promise((resolve, reject) => {
       this.mapService.getStaticMapImage().then((image) => {
@@ -25,6 +44,13 @@ export class LeafletRos {
         return reject()
       });
     });
+    
+    if(schedule){
+      this.title = "Edit schedule";
+    } else {
+      this.title = "Add schedule";
+    }
+    this.schedule = schedule;
   }
 
   attached() {
@@ -87,5 +113,20 @@ export class LeafletRos {
       this.map.removeLayer(this.editLayer);
       this.editLayer = null;
     }
+  }
+  
+  convert(schedule){
+    schedule.cron = schedule.second + ' ' +
+      schedule.minute + ' ' +
+      schedule.hour + ' * ' +
+      schedule.month + ' ' +
+      (schedule.day === '*' ? '*' : this.dayOfWeek[schedule.day]);
+
+    delete schedule.second;
+    delete schedule.minute;
+    delete schedule.hour;
+    delete schedule.day;
+    delete schedule.month;
+    this.controller.ok(schedule);
   }
 }
