@@ -1,4 +1,18 @@
 <template>
+    
+  <div class="container">
+    <div style="margin-bottom: 10px;">
+      <button class="btn btn-default" click.delegate="create()"><i class="fa fa-plus"></i> Create</button>
+      <button class="btn btn-default" click.delegate="show()"><i class="fa fa-eye"></i> View</button>
+      <button class="btn btn-default" click.delegate="edit()"><i class="fa fa-edit"></i> Edit</button>
+      <button class="btn btn-default" click.delegate="save()"><i class="fa fa-save"></i> Save</button>
+      <button class="btn btn-default" click.delegate="clean()"><i class="fa fa-ban"></i> Clean</button>
+    </div>
+    <div class="">
+      <div id="maptest" style="height:600px;" class="col-xs-12 col-md-8"></div>
+    </div>
+  </div>
+    
   <ai-dialog>
     <ai-dialog-body>
       <h2>${title}</h2>
