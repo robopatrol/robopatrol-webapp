@@ -21,6 +21,7 @@ export class App {
       { route: 'teleop', name: 'teleop', moduleId: 'pages/teleop/index', nav: true, title: 'Teleop', connected: true },
       { route: 'ros-infos', name: 'ros-infos', moduleId: 'pages/ros-infos/index', nav: true, title: 'ROS Infos', connected: true },
 
+      { route: 'maps', name: 'maps', moduleId: 'pages/maps/index', nav: true, title: 'Maps', connected: true },
       { route: 'schedule', name: 'schedule', moduleId: 'pages/schedule/index', nav: true, title: 'Schedule', connected: true },
 
       { route: 'examples', name: 'examples', moduleId: 'pages/examples/index', nav: true, title: 'Examples', connected: true },

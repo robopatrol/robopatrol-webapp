@@ -1,0 +1,30 @@
+<template>
+  <div class="container">
+    <h1>Patrol Maps</h1>
+    <div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>File</th>
+            <th class="text-right">
+              <!--<button type="button" class="btn btn-default" click.delegate="create()"><i class="fa fa-plus"></i></button>-->
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr repeat.for="entry of entries" class="">
+            <td style="vertical-align:middle;">${entry.name}</td>
+            <td style="vertical-align:middle;">${entry.filename}</td>
+            <td class="text-right">
+              <button class="btn btn-default" click.delegate="use(entry)"><i class="fa fa-map-o"></i></button>
+              <!--<button class="btn btn-info" click.delegate="edit(entry)"><i class="fa fa-edit"></i></button>
+              <button class="btn btn-danger" click.delegate="delete(entry)"><i class="fa fa-trash"></i></button>-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</template>

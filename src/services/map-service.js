@@ -22,14 +22,36 @@ export class MapService {
   constructor(ros) {
     this.ros = ros;
 
-    this.staticMapService = new Service({
+    this.mapService = new Service({
+      ros: this.ros,
+      name: '/robopatrol/map_service',
+      serviceType: 'robopatrol/ActionService'
+    });
+
+    this.statiMapService = new Service({
       ros: this.ros,
       name : '/static_map',
       serviceType : 'nav_msgs/GetMap',
       compression : 'png'
     });
+  }
 
-    this.staticMapServiceRequest = new ServiceRequest();
+  loadMap(filename) {
+    return new Promise((resolve, reject) => {
+      let request = new ServiceRequest({
+        action: 'start_map_server',
+        data: JSON.stringify({ filename: filename })
+      });
+      this.mapService.callService(request, (response) => {
+        if (response.success) {
+          this.getStaticMapImage(true).then(() => {
+            return resolve(response);
+          });
+        } else {
+          return reject(response);
+        }
+      });
+    });
   }
 
   getStaticMapImage(force) {
@@ -37,7 +59,8 @@ export class MapService {
       if (this.staticMapImage && !force) {
         return resolve(this.staticMapImage);
       } else {
-        this.staticMapService.callService(this.staticMapServiceRequest, (response) => {
+        let request = new ServiceRequest();
+        service.callService(request, (response) => {
           this.staticMapImage = this.convertOccupancyGridToMapImage(response.map);
           return resolve(this.staticMapImage);
         });
