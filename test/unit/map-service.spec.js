@@ -60,10 +60,6 @@ describe('the map service module', () => {
   it('contains a static map service property', () => {
     expect(sut.staticMapService).toBeDefined();
   });
-
-  it('contains a static map service request property', () => {
-    expect(sut.staticMapServiceRequest).toBeDefined();
-  });
 });
 
 describe('the map service get static map function', () => {
@@ -78,24 +74,46 @@ describe('the map service get static map function', () => {
     sut.staticMapService = mockedService;
   });
 
-  it('calls the ros service if no image is loaded', () => {
-    spyOn(mockedService, 'callService');
-    sut.getStaticMapImage();
-    expect(mockedService.callService).toHaveBeenCalled();
+  it('checks if the static_map service is available', (done) => {
+    spyOn(mockedRos, 'serviceIsRunning');
+    sut.getStaticMapImage().then(() => {
+      expect(modckedRos.serviceIsRunning).toHaveBeenCalledWith('/static_map');
+      done();
+    }).catch(() => {
+      done();
+    });
+  });
+
+  it('calls the ros service if no image is loaded', (done) => {
+    spyOn(mockedService, 'callService').and.callThrough();
+    sut.getStaticMapImage().then(() => {
+      expect(mockedService.callService).toHaveBeenCalled();
+      done();
+    }).catch(() => {
+      done();
+    });
   });
 
   it('skips the ros service call if image is already loaded', () => {
     sut.staticMapImage = 'is not null or undefined';
-    spyOn(mockedService, 'callService');
-    sut.getStaticMapImage();
-    expect(mockedService.callService).not.toHaveBeenCalled();
+    spyOn(mockedService, 'callService').and.callThrough();
+    sut.getStaticMapImage().then(() => {
+      expect(mockedService.callService).not.toHaveBeenCalled();
+      done();
+    }).catch(() => {
+      done();
+    });
   });
 
   it('calls the ros service if enforeced', () => {
     sut.staticMapImage = 'is not null or undefined';
-    spyOn(mockedService, 'callService');
-    sut.getStaticMapImage(true);
-    expect(mockedService.callService).toHaveBeenCalled();
+    spyOn(mockedService, 'callService').and.callThrough();
+    sut.getStaticMapImage(true).then(() => {
+      expect(mockedService.callService).toHaveBeenCalled();
+      done();
+    }).catch(() => {
+      done();
+    });
   });
 
 });

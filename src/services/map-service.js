@@ -33,7 +33,7 @@ export class MapService {
       serviceType: 'robopatrol/MapServiceStop'
     });
 
-    this.statiMapService = new Service({
+    this.staticMapService = new Service({
       ros: this.ros,
       name : '/static_map',
       serviceType : 'nav_msgs/GetMap',
@@ -66,7 +66,7 @@ export class MapService {
         let request = new ServiceRequest();
         this.ros.serviceIsRunning('/static_map')
           .then(() => {
-            this.statiMapService.callService(request, (response) => {
+            this.staticMapService.callService(request, (response) => {
               this.staticMapImage = this.convertOccupancyGridToMapImage(response.map);
               return resolve(this.staticMapImage);
             });
