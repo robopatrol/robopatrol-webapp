@@ -1,7 +1,5 @@
 import {inject} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
-import {Edit} from './edit';
-import {Prompt} from './prompt';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {MapService} from '../../services/map-service'
@@ -19,10 +17,10 @@ export class Index {
   }
 
   activate() {
-    this.load();
+    return this.loadMaps();
   }
 
-  load() {
+  loadMaps() {
     return new Promise((resolve, reject) => {
       // TODO: load maps from db
       this.entries = [{
@@ -35,12 +33,12 @@ export class Index {
         name: 'Willow',
         filename: 'willow.yaml'
       }];
+      return resolve();
     });
-    return resolve();
   }
 
   use(entry) {
-    this.mapService.loadMap(entry.filename)
+    this.mapService.startMapServer(entry.filename)
       .then((response) => {
         console.log(response);
       })
