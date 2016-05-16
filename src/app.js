@@ -19,7 +19,7 @@ export class App {
 
       { route: 'connect', name: 'connect', moduleId: 'pages/connect', nav: false, title: 'Connect', connected: false, settings: { startpage: false, last: false, enable: false, icon: '' } },
 
-      { route: 'scheduler', name: 'scheduler', moduleId: 'pages/scheduler', nav: true, title: 'Schedule patrol', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/route.png' } },
+      { route: 'schedule', name: 'schedule', moduleId: 'pages/schedule/index', nav: true, title: 'Schedule patrol', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/route.png' } },
 
       { route: 'battery', name: 'battery', moduleId: 'pages/ros-infos/battery', nav: true, title: 'Battery status', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/battery.png' } },
 
