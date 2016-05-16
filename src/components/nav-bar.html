@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse" id="robopatrol-navbar-collapse">
       <ul if.bind="router.navigation.length > 0" class="nav navbar-nav">
         <template repeat.for="row of router.navigation">
-          <li if.bind="row.config.connected ? connected : true" class="${row.isActive ? 'active' : ''}">
+          <li if.bind="row.config.connected ? connected && row.settings.enable : true && row.settings.enable" class="${row.isActive ? 'active' : ''}">
             <a data-toggle="collapse" data-target="#robopatrol-navbar-collapse.in" href.bind="row.href">${row.title}
             </a>
           </li>

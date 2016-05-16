@@ -3,7 +3,11 @@
     <h1>${heading}</h1>
     <div class="startpage">
         <template repeat.for="row of router.navigation">
-            <a if.bind="row.settings.startpage && !row.settings.last" class="icons" href.bind="row.href">
+            <a if.bind="row.settings.startpage && !row.settings.last && row.settings.enable" class="icons" href.bind="row.href">
+                  <h2>${row.title}</h2>
+                  <img src=${row.settings.icon} />
+            </a>
+            <a if.bind="row.settings.startpage && !row.settings.last && !row.settings.enable" class="icons_inactive">
                   <h2>${row.title}</h2>
                   <img src=${row.settings.icon} />
             </a>
@@ -11,7 +15,11 @@
         <div class="hruler"></div>
         <h2>${patrol}</h2>
         <template repeat.for="row of router.navigation">
-            <a if.bind="row.settings.startpage && row.settings.last" class="icons" href.bind="row.href">
+            <a if.bind="row.settings.startpage && row.settings.last && row.settings.enable" class="icons" href.bind="row.href">
+                  <h2>${row.title}</h2>
+                  <img src=${row.settings.icon} />
+            </a>
+            <a if.bind="row.settings.startpage && row.settings.last && !row.settings.enable" class="icons_inactive">
                   <h2>${row.title}</h2>
                   <img src=${row.settings.icon} />
             </a>
