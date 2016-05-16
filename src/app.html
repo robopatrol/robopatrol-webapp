@@ -1,9 +1,9 @@
 <template>
-  <require from="components/nav-bar"></require>
+  <require from="components/nav-bar.html"></require>
   <require from="components/notifications"></require>
   <require from="bootstrap/css/bootstrap.css"></require>
 
-  <nav-bar router.bind="router" connected.bind="ros.isConnected"></nav-bar>
+  <nav-bar router.bind="router" ros.bind="ros"></nav-bar>
 
   <div class="page-host">
     <notifications></notifications>
