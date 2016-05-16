@@ -41,7 +41,7 @@ export class Schedule {
     });
   }
 
-  post(schedule) {
+  post(schedule, waypoints) {
     return this.http.fetch('schedule', {
         method: 'post',
         body: json(schedule),
@@ -54,6 +54,31 @@ export class Schedule {
           name: body.name,
           description: body.description,
           cron: body.cron
+        });
+      });
+  }
+
+  //waypoints
+    addWaypoints() {
+    this.dialogService.open({
+      viewModel: EditSchedule
+    }).then(response => {
+      if (!response.wasCancelled) {
+        this.postWaypoints(response.output);
+      }
+    });
+  }
+
+  postWaypoints(schedule, waypoints) {
+    return this.http.fetch('waypoints', {
+        method: 'post',
+        body: json(waypoints),
+        'media-type': 'application/json'
+      })
+      .then(response => response.json())
+      .then(body => {
+        this.entries.push({
+          map: body.map
         });
       });
   }

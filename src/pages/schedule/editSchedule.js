@@ -133,6 +133,6 @@ export class EditSchedule {
     delete schedule.hour;
     delete schedule.day;
     delete schedule.month;
-    this.controller.ok(schedule);
+    this.controller.ok(schedule, waypoints);
   }
 }

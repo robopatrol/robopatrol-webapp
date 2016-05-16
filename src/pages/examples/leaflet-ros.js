@@ -29,7 +29,7 @@ export class LeafletRos {
 
   attached() {
     // create leaflet map after dom is ready
-    this.map = L.map('maptest', {
+    this.map = L.map('map', {
       crs: L.CRS.Simple,
       editable: true
     });
