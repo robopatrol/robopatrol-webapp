@@ -70,9 +70,15 @@ export class EditSchedule {
     this.map.editTools.stopDrawing();
   }
 
-  create() {
-    this.clean();
+  createWaypoint() {
+    //this.clean();
     this.editLayer = this.map.editTools.startPolyline();
+  }
+
+  createBorder() {
+    //this.clean();
+    this.editLayer = this.map.editTools.startPolyline();
+    this.editLayer.setStyle({color:'red'});
   }
 
   save() {

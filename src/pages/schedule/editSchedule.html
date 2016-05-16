@@ -8,8 +8,9 @@
     <ai-dialog-body>
     <h1>New Patrol</h1>
 	        <div style="margin-bottom: 10px;">
-	      <button class="btn btn-default" click.delegate="create()"><i class="fa fa-plus"></i> Create</button>
-	      <button class="btn btn-default" click.delegate="show()"><i class="fa fa-eye"></i> View</button>
+	      <button class="btn btn-default" click.delegate="createWaypoint()"><i class="fa fa-plus"></i> Waypoint</button>
+  	      <!-- <button class="btn btn-default" click.delegate="createBorder()"><i class="fa fa-plus"></i> Border</button> -->	
+	      <!--<button class="btn btn-default" click.delegate="show()"><i class="fa fa-eye"></i> View</button> -->
 	      <button class="btn btn-default" click.delegate="edit()"><i class="fa fa-edit"></i> Edit</button>
 	      <button class="btn btn-default" click.delegate="save()"><i class="fa fa-save"></i> Save</button>
 	      <button class="btn btn-default" click.delegate="clean()"><i class="fa fa-ban"></i> Clean</button>
@@ -21,7 +22,7 @@
       <form>
         <div class="form-group">
           <label for="name">Name</label>
-          <input value.bind="schedule.name" type="text" class="form-control" id="name" placeholder="Name" attach-focus="true">
+          <input value.bind="schedule.name" type="text" class="form-control" id="name" placeholder="Name" attach-focus="true" required="true">
         </div>
         <!-- <div class="form-group">
           <label for="cron">Cron</label>
@@ -46,7 +47,7 @@
 
         <div class="form-group">
           <label>Time</label>
-          <input class="form-control" value.bind="schedule.time" type="text" placeholder="09:05 AM"></input>
+          <input class="form-control" value.bind="schedule.time" type="text" placeholder="09:05 AM" required="true"></input>
         </div>
         <div class="form-group">
           <label>Day of the Week</label>
