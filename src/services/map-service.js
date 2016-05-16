@@ -22,10 +22,15 @@ export class MapService {
   constructor(ros) {
     this.ros = ros;
 
-    this.mapService = new Service({
+    this.mapServiceStart = new Service({
       ros: this.ros,
-      name: '/robopatrol/map_service',
-      serviceType: 'robopatrol/ActionService'
+      name: '/robopatrol/map_service/start',
+      serviceType: 'robopatrol/MapServiceStart'
+    });
+    this.mapServiceStop = new Service({
+      ros: this.ros,
+      name: '/robopatrol/map_service/stop',
+      serviceType: 'robopatrol/MapServiceStop'
     });
 
     this.statiMapService = new Service({
@@ -36,13 +41,12 @@ export class MapService {
     });
   }
 
-  loadMap(filename) {
+  startMapServer(filename) {
     return new Promise((resolve, reject) => {
       let request = new ServiceRequest({
-        action: 'start_map_server',
-        data: JSON.stringify({ filename: filename })
+        filename: filename
       });
-      this.mapService.callService(request, (response) => {
+      this.mapServiceStart.callService(request, (response) => {
         if (response.success) {
           this.getStaticMapImage(true).then(() => {
             return resolve(response);
@@ -60,10 +64,16 @@ export class MapService {
         return resolve(this.staticMapImage);
       } else {
         let request = new ServiceRequest();
-        service.callService(request, (response) => {
-          this.staticMapImage = this.convertOccupancyGridToMapImage(response.map);
-          return resolve(this.staticMapImage);
-        });
+        this.ros.serviceIsRunning('/static_map')
+          .then(() => {
+            this.statiMapService.callService(request, (response) => {
+              this.staticMapImage = this.convertOccupancyGridToMapImage(response.map);
+              return resolve(this.staticMapImage);
+            });
+          })
+          .catch(() => {
+            return reject();
+          });
       }
     });
   }
