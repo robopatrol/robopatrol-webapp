@@ -5,10 +5,11 @@ import {Prompt} from './prompt';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(DialogService, HttpClient, EventAggregator)
+@inject(DialogService,  HttpClient, EventAggregator)
 export class Schedule {
 
   entries = [];
+  routeEntries = [];
 
   constructor(dialogService, http, ea) {
     this.dialogService = dialogService;
@@ -18,6 +19,7 @@ export class Schedule {
 
   activate() {
     this.loadSchedules();
+    this.loadRoutes();
   }
 
   loadSchedules() {
@@ -28,6 +30,17 @@ export class Schedule {
       .then(response => response.json())
       .then(body => {
         this.entries = body;
+      });
+  }
+  
+  loadRoutes() {
+    //  load exiting routes from server and add to routeEntries
+   return this.http.fetch('route', {
+        method: 'get'
+      })
+      .then(response => response.json())
+      .then(body => {
+        this.routeEntries = body;
       });
   }
 
@@ -41,7 +54,7 @@ export class Schedule {
     });
   }
 
-  post(schedule, waypoints) {
+  post(schedule) {
     return this.http.fetch('schedule', {
         method: 'post',
         body: json(schedule),
@@ -57,32 +70,11 @@ export class Schedule {
         });
       });
   }
-
-  //waypoints
-    addWaypoints() {
-    this.dialogService.open({
-      viewModel: EditSchedule
-    }).then(response => {
-      if (!response.wasCancelled) {
-        this.postWaypoints(response.output);
-      }
-    });
+    
+  postRoute(route) {
+    console.log("TODO: POST");
   }
-
-  postWaypoints(schedule, waypoints) {
-    return this.http.fetch('waypoints', {
-        method: 'post',
-        body: json(waypoints),
-        'media-type': 'application/json'
-      })
-      .then(response => response.json())
-      .then(body => {
-        this.entries.push({
-          map: body.map
-        });
-      });
-  }
-
+  
   editSchedule(entry) {
     this.dialogService.open({
       viewModel: EditSchedule,
