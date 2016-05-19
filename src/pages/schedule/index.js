@@ -9,8 +9,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 export class Schedule {
 
   entries = [];
-  routeEntries = [];
-
+  
   constructor(dialogService, http, ea) {
     this.dialogService = dialogService;
     this.http = http;
@@ -19,7 +18,6 @@ export class Schedule {
 
   activate() {
     this.loadSchedules();
-    this.loadRoutes();
   }
 
   loadSchedules() {
@@ -32,17 +30,6 @@ export class Schedule {
         this.entries = body;
       });
   }
-  
-  loadRoutes() {
-    //  load exiting routes from server and add to routeEntries
-   return this.http.fetch('route', {
-        method: 'get'
-      })
-      .then(response => response.json())
-      .then(body => {
-        this.routeEntries = body;
-      });
-  }
 
   addSchedule() {
     this.dialogService.open({
@@ -53,7 +40,7 @@ export class Schedule {
       }
     });
   }
-
+  
   post(schedule) {
     return this.http.fetch('schedule', {
         method: 'post',
@@ -69,10 +56,6 @@ export class Schedule {
           cron: body.cron
         });
       });
-  }
-    
-  postRoute(route) {
-    console.log("TODO: POST");
   }
   
   editSchedule(entry) {
@@ -119,5 +102,5 @@ export class Schedule {
       .then(body => {
         this.loadSchedules();
       });
-  }
+  } 
 }
