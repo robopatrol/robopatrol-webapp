@@ -23,7 +23,7 @@ export class App {
 
       { route: 'battery', name: 'battery', moduleId: 'pages/ros-infos/battery', nav: true, title: 'Battery status', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/battery.png' } },
 
-      { route: 'images', name: 'images', moduleId: 'pages/images', nav: true, title: 'Images', connected: true, settings: { startpage: true, last: true, enable: true, icon: '/img/page/picture.png' } },
+      { route: 'images', name: 'images', moduleId: 'pages/images/index', nav: true, title: 'Images', connected: true, settings: { startpage: true, last: true, enable: true, icon: '/img/page/picture.png' } },
 
       { route: 'warnings', name: 'warnings', moduleId: 'pages/warnings', nav: true, title: 'Status', connected: true, settings: { startpage: true, last: true, enable: true, icon: '/img/page/warning.png' } },
 

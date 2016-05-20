@@ -1,0 +1,14 @@
+<template>
+  <div class="container">
+    <h1>Images of the last patrol</h1>
+    <div>
+      <p>Testing</p>
+        <div repeat.for="picture of images" class="">
+          <p>${picture.id}</p>
+          <p>${picture.name}</p>
+          <p>${picture.image}</p>
+          <button class="btn btn-danger btn-xs" click.delegate="deletePicture(picture)">Delete</button>
+        </div>
+    </div>
+  </div>
+</template>
