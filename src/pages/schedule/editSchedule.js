@@ -2,8 +2,7 @@ import {inject, bindable} from 'aurelia-framework';
 import {MapService} from '../../services/map-service';
 import {DialogController} from 'aurelia-dialog';
 import {HttpClient, json} from 'aurelia-fetch-client';
-//import {Waypoint} from './waypoint';
-//import {Schedule} from './index';
+import {Schedule} from './index';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(MapService, DialogController, HttpClient)
@@ -34,6 +33,7 @@ export class EditSchedule {
   };
   
   waypoints = [];
+  currentRoute = [];
   
   editLayer = null;
   
@@ -44,7 +44,7 @@ export class EditSchedule {
   }
   
   activate(schedule) {
-          // return promise to delay view activiation until map data is loaded
+    // return promise to delay view activiation until map data is loaded
     return new Promise((resolve, reject) => {
       this.mapService.getStaticMapImage().then((image) => {
 
@@ -84,9 +84,9 @@ export class EditSchedule {
   }
 
   convert(schedule){
-    var time = schedule.time.split(":");
-    schedule.hour = time[0];
-    schedule.minute = time[1];
+//    var time = schedule.time.split(":");
+//    schedule.hour = time[0];
+//    schedule.minute = time[1];
     
     schedule.cron = schedule.second + ' ' +
       schedule.minute + ' ' +
@@ -101,28 +101,18 @@ export class EditSchedule {
     delete schedule.month;
     this.controller.ok(schedule);
   }
-    
-    
-    
-    
-    
-    
-    
-    
-    
- 
-    
-  
+
+
   load() {
-    this.getWaypoints();
-    let latLngs = [];
-    this.waypoints.forEach( (point)=> {
-      var name = point.name.split("#");
-      if (name[0] == this.schedule.name) {
-        latLngs.push(L.latLng(point.y, point.x));
-      }
+    this.get();
+    this.sort(this.waypoints);
+    this.getCurrentRoute(this.waypoints, this.schedule.name);      // TODO: get currentSchdeule for schdeule.name
+
+    var latLngs = [];
+    this.currentRoute.forEach( (point)=> {
+      latLngs.push(L.latLng(point.y, point.x));
     });
-    this.clean();
+    this.clearRoute();
     this.editLayer = L.polyline(latLngs).addTo(this.map);
   }
   
@@ -138,84 +128,89 @@ export class EditSchedule {
   
   save() {
     if (this.editLayer) {
-
-//      this.waypoints.forEach( (point)=> {
-//        var name = point.name.split("#");
-//        if (name[0] == this.schedule.name) {
-//          this.deleteWaypoints(point);
-//        }
-//      });
-
+      this.getCurrentRoute(this.waypoints, this.schedule.name);
+      if (this.currentRoute != null) {
+        this.currentRoute.forEach( (point)=> {
+          this.delete(point);
+        }); 
+      }
       var idx = 1;
       this.editLayer.getLatLngs().forEach( (point)=> {
         this.waypoint.name = this.schedule.name + "#" + idx++;
         // Lat (Latitude) means North/Sourth = y ; Lng (Longitude) means Ease/West = x
         this.waypoint.x = point.lng;
         this.waypoint.y = point.lat;
-        this.postWaypoint(this.waypoint);
+        this.post(this.waypoint);
       });
     }
   } 
 
   clean() {
+    this.clearRoute();
+    
+    this.waypoints.forEach( (point)=> {
+      this.delete(point);
+    });   
+  } 
+  
+  
+  clearRoute() {
     this.map.editTools.stopDrawing();
     if (this.editLayer) {
       this.map.removeLayer(this.editLayer);
       this.editLayer = null;
     }
-    
-//    this.waypoints.forEach( (point)=> {
-//      var name = point.name.split("#");
-//      if (name[0] == this.schedule.name) {
-//        this.deleteWaypoints(point);
-//      }
-//    });
   } 
+    
+  sort(waypoints) {
+    waypoints.sort( (a, b)=> {
+      var nameA = a.name;
+      var nameB = b.name;
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+  }
   
-  getWaypoints() {
-    this.http.fetch('route', {
-      method: 'GET'
+  getCurrentRoute(waypoints, name) {
+    return this.currentRoute = waypoints.filter( (point)=> {
+      return point.name.split("#")[0] == name;
+    });
+  }
+  
+  
+  get() {
+    return this.http.fetch('route', {
+      method: 'get'
     })
     .then(response => response.json())
-    .then(data => {
-      data.sort(function(a, b) {
-        var nameA = a.name;
-        var nameB = b.name;
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        // names must be equal
-        return 0;
-      });
-      this.waypoints = data;
+    .then(body => {
+      this.waypoints = body;
     });
   }
 
-  postWaypoint(waypoint) {
-    this.http.fetch('route', {
+  post(waypoint) {
+    return this.http.fetch('route', {
       method: 'post',
       body: json(waypoint),
       'media-type': 'application/json'
     })
     .then(response => response.json())
-    .then(data => {
-      this.waypoints.push(data);
-      console.log(this.waypoints);
+    .then(body => {
+      this.waypoints.push(body);
     });
   }
 
-  deleteWaypoints(waypoint) {
-    this.http.fetch('route/'+waypoint.id, {
+  delete(waypoint) {
+    return this.http.fetch('route/'+waypoint.id, {
         method: 'delete',
-        body: json(waypoint),
-        'media-type': 'application/json'
       })
       .then(body => {
-        console.log(body);
-//        this.getWaypoints();
+        this.get();
       });
   } 
 }

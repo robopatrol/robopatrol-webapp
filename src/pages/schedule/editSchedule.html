@@ -43,12 +43,28 @@
           <textarea class="form-control" rows="3" value.bind="schedule.description" type="text" class="form-control" id="description" placeholder="Description">
           </textarea>
         </div>
-
+        
         <div class="form-group">
+          <label>Hour</label>
+          <select class="form-control" value.bind="schedule.hour">
+            <option>*</option>
+            <option repeat.for="i of 24">${i}</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Minute</label>
+          <select class="form-control" value.bind="schedule.minute">
+            <option>*</option>
+            <option repeat.for="i of 60">${i}</option>
+          </select>
+        </div>
+
+<!--        <div class="form-group">
           <label>Time</label>
           <input class="form-control" value.bind="schedule.time" type="text" placeholder="09:05 AM" required="true"></input>
-        </div>
-        <div class="form-group">
+        </div>-->
+<!--        <div class="form-group">
           <label>Day of the Week</label>
           <fieldset>
 	          <input type="checkbox" value="0" value.bind="days"> Monday</input>
@@ -59,6 +75,13 @@
 	      	<input  type="checkbox" value="5" value.bind="days"> Saturday</input>
 	        <input  type="checkbox" value="6" value.bind="days"> Sunday</input>
 	     </fieldset>
+        </div>-->
+        <div class="form-group">
+          <label>Day of the Week</label>
+          <select class="form-control" value.bind="schedule.day">
+            <option>*</option>
+            <option repeat.for="i of ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]">${i}</option>-
+          </select>
         </div>
       </form>
     </ai-dialog-body>
