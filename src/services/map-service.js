@@ -61,13 +61,6 @@ export class MapService {
       compression : 'png'
     });
 
-    this.mapTopic = new Topic({
-      ros : this.ros,
-      name : '/map',
-      messageType : 'nav_msgs/OccupancyGrid',
-      compression : 'png'
-    });
-
     this.poseTopic = new Topic({
       ros: this.ros,
       name: '/robot_pose',
