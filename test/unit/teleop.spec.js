@@ -1,5 +1,4 @@
 import {Teleop} from '../../src/pages/teleop/index';
-import {_} from 'lodash';
 
 describe('the teleop module', () => {
   var sut;
@@ -10,8 +9,8 @@ describe('the teleop module', () => {
 
   it('should define an action for each button', ()=>{
     expect(sut.buttons).toBeDefined();
-    _.forEach(sut.buttons, (row)=> {
-      _.forEach(row, (btn) => {
+    sut.buttons.forEach((row)=> {
+      row.forEach((btn) => {
         expect(btn.action).toBeDefined();
         expect(btn.icon).toBeDefined();
       });
