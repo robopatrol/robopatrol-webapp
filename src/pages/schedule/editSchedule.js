@@ -2,8 +2,6 @@ import {inject, bindable} from 'aurelia-framework';
 import {MapService} from '../../services/map-service';
 import {DialogController} from 'aurelia-dialog';
 import {HttpClient, json} from 'aurelia-fetch-client';
-import {Schedule} from './index';
-import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(MapService, DialogController, HttpClient)
 export class EditSchedule {
@@ -44,6 +42,8 @@ export class EditSchedule {
   }
   
   activate(schedule) {
+    this.schedule = schedule;
+
     // return promise to delay view activiation until map data is loaded
     return new Promise((resolve, reject) => {
       this.mapService.getStaticMapImage().then((image) => {
@@ -63,7 +63,6 @@ export class EditSchedule {
     } else {
       this.title = "Add schedule";
     }
-    this.schedule = schedule;
   }
   
   attached() {
@@ -82,15 +81,14 @@ export class EditSchedule {
   deactivate() {
     this.map.editTools.stopDrawing();
   }
-
-  convert(schedule){
-//    var time = schedule.time.split(":");
-//    schedule.hour = time[0];
-//    schedule.minute = time[1];
+  
+  convert(schedule){ 
+    schedule.second = '*';
+    schedule.month = '*';
     
     schedule.cron = schedule.second + ' ' +
       schedule.minute + ' ' +
-      schedule.hour + ' * ' +
+      schedule.hour + ' ' +
       schedule.month + ' ' +
       (schedule.day === '*' ? '*' : this.dayOfWeek[schedule.day]);
 
@@ -103,17 +101,18 @@ export class EditSchedule {
   }
 
 
-  load() {
+  load(currentSchedule) {
     this.get();
     this.sort(this.waypoints);
-    this.getCurrentRoute(this.waypoints, this.schedule.name);      // TODO: get currentSchdeule for schdeule.name
-
-    var latLngs = [];
-    this.currentRoute.forEach( (point)=> {
-      latLngs.push(L.latLng(point.y, point.x));
-    });
-    this.clearRoute();
-    this.editLayer = L.polyline(latLngs).addTo(this.map);
+    this.getCurrentRoute(this.waypoints, currentSchedule.name);
+    if (this.currentRoute != null) {
+      var latLngs = []; 
+      this.currentRoute.forEach( (point)=> {
+        latLngs.push(L.latLng(point.y, point.x));
+      });
+      this.clearRoute();
+      this.editLayer = L.polyline(latLngs).addTo(this.map); 
+    }
   }
   
   create() {

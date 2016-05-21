@@ -8,7 +8,7 @@
     <ai-dialog-body>
     <h1>New Patrol</h1>
 	        <div style="margin-bottom: 10px;">
-              <button class="btn btn-default" click.delegate="load()"><i class="fa fa-eye"></i> Load</button>
+              <button class="btn btn-default" click.delegate="load(schedule)"><i class="fa fa-eye"></i> Load</button>
 	      <button class="btn btn-default" click.delegate="create()"><i class="fa fa-plus"></i> Create</button>
 	      <button class="btn btn-default" click.delegate="edit()"><i class="fa fa-edit"></i> Edit</button>
               <button class="btn btn-default" click.delegate="save()"><i class="fa fa-save"></i> Save</button>
@@ -59,23 +59,6 @@
             <option repeat.for="i of 60">${i}</option>
           </select>
         </div>
-
-<!--        <div class="form-group">
-          <label>Time</label>
-          <input class="form-control" value.bind="schedule.time" type="text" placeholder="09:05 AM" required="true"></input>
-        </div>-->
-<!--        <div class="form-group">
-          <label>Day of the Week</label>
-          <fieldset>
-	          <input type="checkbox" value="0" value.bind="days"> Monday</input>
-	      <input type="checkbox" value="1" value.bind="days"> Tuesday</input>
-	    <input type="checkbox" value="2" value.bind="days"> Wednesday</input>
-	      <input type="checkbox" value="3" value.bind="days"> Thursday</input>
-	        <input type="checkbox" value="4" value.bind="days"> Friday</input>
-	      	<input  type="checkbox" value="5" value.bind="days"> Saturday</input>
-	        <input  type="checkbox" value="6" value.bind="days"> Sunday</input>
-	     </fieldset>
-        </div>-->
         <div class="form-group">
           <label>Day of the Week</label>
           <select class="form-control" value.bind="schedule.day">
