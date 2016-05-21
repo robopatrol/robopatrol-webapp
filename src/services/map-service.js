@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {Ros, Service, ServiceRequest} from '../lib/ros';
+import {Ros, Service, ServiceRequest, Topic} from '../lib/ros';
 
 
 export class MapImage {
@@ -32,12 +32,52 @@ export class MapService {
       name: '/robopatrol/map_service/stop',
       serviceType: 'robopatrol/MapServiceStop'
     });
+    this.mapServiceRecord = new Service({
+      ros: this.ros,
+      name: '/robopatrol/map_service/record',
+      serviceType: 'robopatrol/MapServiceRecord'
+    });
+    this.mapServiceSave = new Service({
+      ros: this.ros,
+      name: '/robopatrol/map_service/save',
+      serviceType: 'robopatrol/MapServiceSave'
+    });
+    this.mapServiceDelete = new Service({
+      ros: this.ros,
+      name: '/robopatrol/map_service/delete',
+      serviceType: 'robopatrol/MapServiceSave'
+    });
 
     this.staticMapService = new Service({
       ros: this.ros,
       name : '/static_map',
       serviceType : 'nav_msgs/GetMap',
       compression : 'png'
+    });
+    this.dynamicMapService = new Service({
+      ros: this.ros,
+      name : '/dynamic_map',
+      serviceType : 'nav_msgs/GetMap',
+      compression : 'png'
+    });
+
+    this.mapTopic = new Topic({
+      ros : this.ros,
+      name : '/map',
+      messageType : 'nav_msgs/OccupancyGrid',
+      compression : 'png'
+    });
+
+    this.poseTopic = new Topic({
+      ros: this.ros,
+      name: '/robot_pose',
+      messageType: 'geometry_msgs/Pose',
+    });
+
+    this.amclPoseTopic = new Topic({
+      ros: this.ros,
+      name: '/amcl_pose',
+      messageType: 'geometry_msgs/PoseWithCovarianceStamped',
     });
   }
 
@@ -51,6 +91,45 @@ export class MapService {
           this.getStaticMapImage(true).then(() => {
             return resolve(response);
           });
+        } else {
+          return reject(response);
+        }
+      });
+    });
+  }
+
+  startMapRecording() {
+    return new Promise((resolve, reject) => {
+      let request = new ServiceRequest();
+      this.mapServiceRecord.callService(request, (response) => {
+        if (response.success) {
+          return resolve(response);
+        } else {
+          return reject(response);
+        }
+      });
+    });
+  }
+
+  saveMap(data) {
+    return new Promise((resolve, reject) => {
+      let request = new ServiceRequest(data);
+      this.mapServiceSave.callService(request, (response) => {
+        if (response.success) {
+          return resolve(response);
+        } else {
+          return reject(response);
+        }
+      });
+    });
+  }
+
+  deleteMap(id) {
+    return new Promise((resolve, reject) => {
+      let request = new ServiceRequest({ id: id });
+      this.mapServiceDelete.callService(request, (response) => {
+        if (response.success) {
+          return resolve(response);
         } else {
           return reject(response);
         }
@@ -75,6 +154,22 @@ export class MapService {
             return reject();
           });
       }
+    });
+  }
+
+  getDynamicMapImage() {
+    return new Promise((resolve, reject) => {
+      let request = new ServiceRequest();
+      this.ros.serviceIsRunning('/dynamic_map')
+        .then(() => {
+          this.dynamicMapService.callService(request, (response) => {
+            let image = this.convertOccupancyGridToMapImage(response.map);
+            return resolve(image);
+          });
+        })
+        .catch(() => {
+          return reject();
+        });
     });
   }
 
