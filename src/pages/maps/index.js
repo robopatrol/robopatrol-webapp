@@ -2,12 +2,14 @@ import {inject} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {MapService} from '../../services/map-service'
+import {MapService} from '../../services/map-service';
+
+import {Create} from './create';
 
 @inject(MapService, DialogService, HttpClient, EventAggregator)
 export class Index {
 
-  entries = [];
+  items = [];
 
   constructor(mapService, dialogService, http, ea) {
     this.mapService = mapService;
@@ -21,29 +23,49 @@ export class Index {
   }
 
   loadMaps() {
-    return new Promise((resolve, reject) => {
-      // TODO: load maps from db
-      this.entries = [{
-        name: 'Playground',
-        filename: 'playground.yaml'
-      }, {
-        name: 'ICC Lab',
-        filename: 'icclab.yaml'
-      }, {
-        name: 'Willow',
-        filename: 'willow.yaml'
-      }];
-      return resolve();
-    });
+    return this.http.fetch('maps', {
+          method: 'get'
+        })
+        .then(response => response.json())
+        .then(body => {
+          this.items = body;
+        });
   }
 
-  use(entry) {
-    this.mapService.startMapServer(entry.filename)
+  create() {
+    this.mapService.startMapRecording()
       .then((response) => {
-        console.log(response);
+        this.dialogService.open({
+          viewModel: Create
+        }).then(response => {
+          if (!response.wasCancelled) {
+            this.loadMaps();
+          }
+        });
       })
       .catch((response) => {
-        console.log(response);
+        console.warn("Start map recording failed");
+      });
+  }
+
+  delete(item) {
+    this.mapService.deleteMap(item.id)
+      .then((response) => {
+        console.info("Map deleted");
+        this.loadMaps();
+      })
+      .catch((response) => {
+        console.warn("Deleting map failed");
+      });
+  }
+
+  use(item) {
+    this.mapService.startMapServer(item.filename)
+      .then((response) => {
+        console.info("Map server started");
+      })
+      .catch((response) => {
+        console.warn("Starting map server failed");
       });
   }
 }
