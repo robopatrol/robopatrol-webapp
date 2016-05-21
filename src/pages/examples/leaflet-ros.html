@@ -1,0 +1,25 @@
+<template>
+  <div class="container">
+    <h1>Leaflet Map Example</h1>
+    <div style="margin-bottom: 10px;">
+      <button class="btn btn-default" click.delegate="create()"><i class="fa fa-plus"></i> Create</button>
+      <button class="btn btn-default" click.delegate="show()"><i class="fa fa-eye"></i> View</button>
+      <button class="btn btn-default" click.delegate="edit()"><i class="fa fa-edit"></i> Edit</button>
+      <button class="btn btn-default" click.delegate="save()"><i class="fa fa-save"></i> Save</button>
+      <button class="btn btn-default" click.delegate="clean()"><i class="fa fa-ban"></i> Clean</button>
+    </div>
+    <div class="">
+      <div id="maptest" style="height:600px;" class="col-xs-12 col-md-8"></div>
+      <div class="col-xs-12 col-md-4">
+        <table if.bind="editLayer" class="table table-striped">
+          <tr>
+            <th>#</th><th>X (Longitue)</th><th>Y (Latitude)</th>
+          </tr>
+          <tr repeat.for="latlng of editLayer.getLatLngs()">
+            <td class="col-xs-2">${$index}</td><td class="col-xs-4">${latlng.lng}</td><td class="col-xs-4">${latlng.lat}</td>
+          </tr>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>

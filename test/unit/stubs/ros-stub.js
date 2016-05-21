@@ -15,3 +15,12 @@ export class RosStub {
     });
   }
 }
+
+export class ServiceStub {
+
+  response = {};
+
+  callService(request, callback) {
+    return callback(this.response);
+  }
+}
