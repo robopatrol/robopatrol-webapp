@@ -5,6 +5,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {MapService} from '../../services/map-service';
 
 import {Create} from './create';
+import {Edit} from './edit';
 
 @inject(MapService, DialogService, HttpClient, EventAggregator)
 export class Index {
@@ -63,6 +64,13 @@ export class Index {
     this.mapService.startMapServer(item.filename)
       .then((response) => {
         console.info("Map server started");
+        this.dialogService.open({
+          viewModel: Edit
+        }).then(response => {
+          if (!response.wasCancelled) {
+            // nothing to do
+          }
+        });
       })
       .catch((response) => {
         console.warn("Starting map server failed");
