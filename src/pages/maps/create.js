@@ -90,7 +90,7 @@ export class Create {
   }
 
   deactivate() {
-    //this.mapService.poseTopic.unsubscribe();
+    this.mapService.poseTopic.unsubscribe();
     this.mapService.amclPoseTopic.unsubscribe();
   }
 
@@ -106,10 +106,10 @@ export class Create {
     this.map.fitBounds(this.imageLayer.getBounds());
 
     // listen to robot_pose topic
-    /*this.mapService.poseTopic.subscribe((msg) => {
+    this.mapService.poseTopic.subscribe((msg) => {
       let position = msg.position;
       this.robotLayer.setLatLng([position.y, position.x]);
-    });*/
+    });
 
     // listen to amcl_pose topic
     this.mapService.amclPoseTopic.subscribe((msg) => {
@@ -118,8 +118,6 @@ export class Create {
     });
 
     this.map.on('click', (e) => {
-      //TODO: drive to this point
-      console.log(e);
       this.moveTo(e.latlng);
     });
   }
