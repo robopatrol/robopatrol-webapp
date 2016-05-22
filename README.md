@@ -3,6 +3,23 @@
 [![Travis Build Status](https://travis-ci.org/robopatrol/robopatrol-webapp.svg?branch=master)](https://travis-ci.org/robopatrol/robopatrol-webapp)
 [![Coverage Status](https://coveralls.io/repos/github/robopatrol/robopatrol-webapp/badge.svg?branch=master)](https://coveralls.io/github/robopatrol/robopatrol-webapp?branch=master)
 
+Main project documentation: **[Project Wiki](https://github.com/robopatrol/robopatrol/wiki)**
+
+## Run with Docker
+
+```shell
+docker-compose build && docker-compose up
+```
+
+## Release
+
+```shell
+docker build -t robopatrol/webapp .
+docker push robopatrol/webapp
+```
+
+----
+
 ## Running The App
 
 To run the app, follow these steps.
