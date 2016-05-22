@@ -48,7 +48,7 @@ describe('the App module', () => {
   });
 
   it('should have a images route', () => {
-    expect(sut.router.routes).toContain({ route: 'images', name: 'images', moduleId: 'pages/images', nav: true, title: 'Images', connected: true, settings: { startpage: true, last: true, enable: true, icon: '/img/page/picture.png' } });
+    expect(sut.router.routes).toContain({ route: 'images', name: 'images', moduleId: 'pages/images/index', nav: true, title: 'Images', connected: true, settings: { startpage: true, last: true, enable: true, icon: '/img/page/picture.png' } });
   });
 
   it('should have a warnings route', () => {
