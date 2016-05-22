@@ -12,16 +12,6 @@ export class EditSchedule {
     description: '',
     cron: ''
   };
-
-  dayOfWeek = {
-    Monday: 0,
-    Tuesday: 1,
-    Wednesday: 2,
-    Thursday: 3,
-    Friday: 4,
-    Saturday: 5,
-    Sunday: 6
-  };
   
   waypoint = {
     id: '',
@@ -56,13 +46,13 @@ export class EditSchedule {
 
         // create a leaflet image layer with base64 encoded data
         this.imageLayer = L.imageOverlay(image.data, image.bounds);
-
         return resolve();
       }).catch(() => {
         console.warn("Loading map data failed.")
         return reject()
       });
     });
+
   }
   
   attached() {
@@ -76,40 +66,61 @@ export class EditSchedule {
     
     // zoom map to image extent
     this.map.fitBounds(this.imageLayer.getBounds());
+    this.load(this.schedule);
   }
+
 
   deactivate() {
     this.map.editTools.stopDrawing();
   }
   
   convert(schedule){
-    schedule.cron = schedule.second + ' ' +
-      schedule.minute + ' ' +
-      schedule.hour + ' * ' +
-      schedule.month + ' ' +
-      (schedule.day === '*' ? '*' : this.dayOfWeek[schedule.day]);
+  	this.save();
 
-    delete schedule.second;
-    delete schedule.minute;
-    delete schedule.hour;
-    delete schedule.day;
-    delete schedule.month;
+  	var tempTimes = schedule.time.split(":");
+
+	/*
+    * ┌─────────── min (0 - 59)
+    * │ ┌──────────── hour (0 - 23)
+    * │ │ ┌───────────── day of month (1 - 31)
+    * │ │ │ ┌────────────── month (1 - 12)
+    * │ │ │ │ ┌─────────────── day of week (0 - 6) (0 to 6 are Sunday to Saturday)
+    * │ │ │ │ │
+    * * * * * *
+    */
+    schedule.cron = '* ' +
+      tempTimes[0] + ' ' +
+      tempTimes[1] + ' * * *';
+
+    delete schedule.time;
     this.controller.ok(schedule);
   }
 
+  getCrons(schedule)
+  {
+  	var tempCronData = [];
+  	tempCronData = schedule.cron.split(" ");
+
+  	this.schedule.time = tempCronData[1]+":"+tempCronData[2];
+  }
 
   load(currentSchedule) {
-    this.get();
-    this.sort(this.waypoints);
-    this.getCurrentRoute(this.waypoints, currentSchedule.name);
-    if (this.currentRoute.length != 0) {
-      var latLngs = []; 
-      this.currentRoute.forEach( (point)=> {
-        latLngs.push(L.latLng(point.y, point.x));
-      });
-      this.clearRoute();
-      this.editLayer = L.polyline(latLngs).addTo(this.map); 
-    }
+  	if(currentSchedule)
+  	{
+	    this.get().then(()=>{
+		    this.sort(this.waypoints);
+		    this.getCurrentRoute(this.waypoints, currentSchedule.name);
+		    if (this.currentRoute.length != 0) {
+		      var latLngs = []; 
+		      this.currentRoute.forEach( (point)=> {
+		        latLngs.push(L.latLng(point.y, point.x));
+		      });
+		      this.clearRoute();
+		      this.editLayer = L.polyline(latLngs).addTo(this.map); 
+		    }
+		});
+	    this.getCrons(currentSchedule);
+	}
   }
   
   create() {

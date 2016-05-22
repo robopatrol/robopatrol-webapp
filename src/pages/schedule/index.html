@@ -1,14 +1,12 @@
 <template>
   <div class="container">
     <h1>Patrol Schedule</h1>
-    <p>Cron description: sec, min, hour, day of month, month, day of week (0 to 6 are Sunday to Saturday)</p>
     <div>
       <button type="button" class="btn btn-default" click.delegate="addSchedule()"><i class="fa fa-plus"></i></button>
       <table class="table table-striped">
         <thead>
           <tr>
             <th>Name</th>
-            <th>Cron</th>
             <th>Description</th>
             <th></th>
             <th></th>
@@ -17,7 +15,6 @@
         <tbody>
           <tr repeat.for="entry of entries" class="">
             <td>${entry.name}</td>
-            <td>${entry.cron}</td>
             <td>${entry.description}</td>
             <td><button class="btn btn-info btn-xs" click.delegate="editSchedule(entry)">Edit</button></td>
             <td><button class="btn btn-danger btn-xs" click.delegate="deleteSchedule(entry)">Delete</button></td>

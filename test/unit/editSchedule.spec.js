@@ -67,36 +67,19 @@ describe('the edit schedule dialog', () => {
 
   it('converts the input to a cron string', () => {
     var schedule = {
-      second: 1,
-      minute: 2,
-      hour: 3,
-      day: 'Friday',
-      month: 5
+      time: "2:3"
     };
     sut.convert(schedule);
-    expect(controller.result.cron).toBe('1 2 3 * 5 4');
-    expect(controller.result.second).not.toBeDefined();
-    expect(controller.result.minute).not.toBeDefined();
-    expect(controller.result.hour).not.toBeDefined();
-    expect(controller.result.day).not.toBeDefined();
-    expect(controller.result.month).not.toBeDefined();
+    expect(controller.result.cron).toBe('* 2 3 * * *');
+    expect(controller.result.time).not.toBeDefined();
   });
 
-  it('converts the input to a cron string with day not set', () => {
+  it('converts the input cron string to human readable string', () => {
     var schedule = {
-      second: 1,
-      minute: 2,
-      hour: 3,
-      day: '*',
-      month: 5
+      cron: "* 2 3 * * *"
     };
-    sut.convert(schedule);
-    expect(controller.result.cron).toBe('1 2 3 * 5 *');
-    expect(controller.result.second).not.toBeDefined();
-    expect(controller.result.minute).not.toBeDefined();
-    expect(controller.result.hour).not.toBeDefined();
-    expect(controller.result.day).not.toBeDefined();
-    expect(controller.result.month).not.toBeDefined();
+    sut.getCrons(schedule);
+    expect(sut.schedule.time).toBe('2:3');
   });
   
   it('all events are defined', () => {

@@ -29,6 +29,7 @@ export class Schedule {
       .then(body => {
         this.entries = body;
       });
+      alert("load "+this.entries);
   }
 
   addSchedule() {
@@ -96,8 +97,7 @@ export class Schedule {
   delete(schedule) {
     return this.http.fetch('schedule/'+schedule.id, {
         method: 'delete',
-        body: json(schedule),
-        'media-type': 'application/json'
+
       })
       .then(body => {
         this.loadSchedules();
