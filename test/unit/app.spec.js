@@ -36,7 +36,7 @@ describe('the App module', () => {
   });
 
   it('should have a disconnect route', () => {
-    expect(sut.router.routes).toContain({ route: 'disconnect', name: 'disconnect', moduleId: 'pages/disconnect', nav: true, title: 'Disconnect', connected: true, settings: { startpage: false, last: false, enable: true, icon: '' } });
+    expect(sut.router.routes).toContain({ route: 'disconnect', name: 'disconnect', moduleId: 'pages/disconnect', nav: true, title: 'Disconnect', connected: true, settings: { startpage: false, last: false, enable: false, icon: '' } });
   });
 
   it('should have a schedule route', () => {
@@ -44,7 +44,7 @@ describe('the App module', () => {
   });
 
   it('should have a battery route', () => {
-    expect(sut.router.routes).toContain({ route: 'battery', name: 'battery', moduleId: 'pages/ros-infos/battery', nav: true, title: 'Battery status', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/battery.png' } });
+    expect(sut.router.routes).toContain({ route: 'battery', name: 'battery', moduleId: 'pages/ros-infos/battery', nav: true, title: 'Battery status', connected: true, settings: { startpage: true, last: false, enable: false, icon: '/img/page/battery.png' } });
   });
 
   it('should have a images route', () => {
@@ -52,7 +52,7 @@ describe('the App module', () => {
   });
 
   it('should have a warnings route', () => {
-    expect(sut.router.routes).toContain({ route: 'warnings', name: 'warnings', moduleId: 'pages/warnings', nav: true, title: 'Status', connected: true, settings: { startpage: true, last: true, enable: true, icon: '/img/page/warning.png' } });
+    expect(sut.router.routes).toContain({ route: 'warnings', name: 'warnings', moduleId: 'pages/warnings', nav: true, title: 'Status', connected: true, settings: { startpage: true, last: true, enable: false, icon: '/img/page/warning.png' } });
   });
 
   it('should have a settings route', () => {
@@ -60,11 +60,11 @@ describe('the App module', () => {
   });
 
   it('should have a teleop route', () => {
-    expect(sut.router.routes).toContain({ route: 'teleop', name: 'teleop', moduleId: 'pages/teleop/index', nav: true, title: 'Teleop', connected: true, settings: { startpage: false, last: false, enable: true, icon: '' } });
+    expect(sut.router.routes).toContain({ route: 'teleop', name: 'teleop', moduleId: 'pages/teleop/index', nav: true, title: 'Manual driving', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/manual.png' } });
   });
 
   it('should have a ros-infos route', () => {
-    expect(sut.router.routes).toContain({ route: 'ros-infos', name: 'ros-infos', moduleId: 'pages/ros-infos/index', nav: true, title: 'ROS Infos', connected: true, settings: { startpage: false, last: false, enable: true, icon: '' } });
+    expect(sut.router.routes).toContain({ route: 'ros-infos', name: 'ros-infos', moduleId: 'pages/ros-infos/index', nav: true, title: 'ROS Infos', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/info.png' } });
   });
   
 });
