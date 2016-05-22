@@ -1,6 +1,5 @@
 import {Index} from '../../src/pages/maps/index';
 
-import {RosStub} from './stubs/ros-stub';
 import {MapServiceStub} from './stubs/map-service-stub';
 import {HttpStub} from './stubs/http-stub';
 import {DialogStub} from './stubs/dialog-stub';
