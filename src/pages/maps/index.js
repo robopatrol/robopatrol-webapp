@@ -1,22 +1,20 @@
 import {inject} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
 import {HttpClient, json} from 'aurelia-fetch-client';
-import {EventAggregator} from 'aurelia-event-aggregator';
 import {MapService} from '../../services/map-service';
 
 import {Create} from './create';
 import {Edit} from './edit';
 
-@inject(MapService, DialogService, HttpClient, EventAggregator)
+@inject(MapService, DialogService, HttpClient)
 export class Index {
 
   items = [];
 
-  constructor(mapService, dialogService, http, ea) {
+  constructor(mapService, dialogService, http) {
     this.mapService = mapService;
     this.dialogService = dialogService;
     this.http = http;
-    this.ea = ea;
   }
 
   activate() {
