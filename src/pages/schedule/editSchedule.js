@@ -44,6 +44,12 @@ export class EditSchedule {
   activate(schedule) {
     this.schedule = schedule;
 
+    if(schedule){
+      this.title = "Edit schedule";
+    } else {
+      this.title = "Add schedule";
+    }
+    
     // return promise to delay view activiation until map data is loaded
     return new Promise((resolve, reject) => {
       this.mapService.getStaticMapImage().then((image) => {
@@ -57,12 +63,6 @@ export class EditSchedule {
         return reject()
       });
     });
-    
-    if(schedule){
-      this.title = "Edit schedule";
-    } else {
-      this.title = "Add schedule";
-    }
   }
   
   attached() {
@@ -82,13 +82,10 @@ export class EditSchedule {
     this.map.editTools.stopDrawing();
   }
   
-  convert(schedule){ 
-    schedule.second = '*';
-    schedule.month = '*';
-    
+  convert(schedule){
     schedule.cron = schedule.second + ' ' +
       schedule.minute + ' ' +
-      schedule.hour + ' ' +
+      schedule.hour + ' * ' +
       schedule.month + ' ' +
       (schedule.day === '*' ? '*' : this.dayOfWeek[schedule.day]);
 
@@ -105,7 +102,7 @@ export class EditSchedule {
     this.get();
     this.sort(this.waypoints);
     this.getCurrentRoute(this.waypoints, currentSchedule.name);
-    if (this.currentRoute != null) {
+    if (this.currentRoute.length != 0) {
       var latLngs = []; 
       this.currentRoute.forEach( (point)=> {
         latLngs.push(L.latLng(point.y, point.x));
