@@ -1,0 +1,47 @@
+<template>
+  <ai-dialog>
+    <ai-dialog-body>
+      <h2>${title}</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3">
+            <form>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input value.bind="data.name" type="text" class="form-control" id="name" placeholder="Name" attach-focus="true">
+              </div>
+              <div class="form-group">
+                <label for="filename">File name</label>
+                <input value.bind="data.filename" type="text" class="form-control" id="name" placeholder="File name">
+              </div>
+            </form>
+            <div class="form-group">
+              <!-- teleop navigation -->
+              <label>Navigation</label>
+              <div class="" repeat.for="buttonRow of buttons">
+                <button repeat.for="button of buttonRow"
+                        mousedown.delegate="buttonHandle($event, button.action)"
+                        mouseup.delegate="buttonHandle($event, button.action)"
+                        mouseleave.trigger="buttonHandle($event, button.action)"
+                        type="button" class="btn btn-default btn-large">
+                  <i class="fa fa-${button.icon}"></i>
+              </div>
+              <p class="help-block">Move the bot with the above buttons or click into the map to set a move target.</p>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-default" click.trigger="refreshMap()">Refresh Map</button>
+            </div>
+          </div>
+          <div class="col-sm-9">
+            <div id="map-create" style="width: 100%; height: 450px;"></div>
+          </div>
+        </div>
+      </div>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
+      <button class="btn btn-primary" click.trigger="save()">Save</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>

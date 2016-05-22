@@ -45,6 +45,22 @@ export class Ros extends ROSLIB.Ros {
       super.getTopics(resolve, reject);
     });
   }
+
+  serviceIsRunning(serviceName) {
+      return new Promise((resolve, reject) => {
+        this.getServices()
+          .then((services) => {
+            if (services.includes(serviceName)) {
+              return resolve();
+            } else {
+              return reject();
+            }
+          })
+          .catch(() => {
+            return reject()
+          });
+      });
+    }
 }
 
 export class Topic extends ROSLIB.Topic {}
@@ -54,3 +70,9 @@ export class Message extends ROSLIB.Message {}
 export class Service extends ROSLIB.Service {}
 
 export class ServiceRequest extends ROSLIB.ServiceRequest {}
+
+export class ActionClient extends ROSLIB.ActionClient {}
+
+export class Goal extends ROSLIB.Goal {}
+
+export class Pose extends ROSLIB.Pose {}
