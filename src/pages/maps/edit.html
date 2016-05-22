@@ -1,0 +1,15 @@
+<template>
+  <ai-dialog>
+    <ai-dialog-body>
+      <h2>${title}</h2>
+      <div class="">
+        <div id="map-edit" style="width: 600px; height: 450px;"></div>
+      </div>
+    </ai-dialog-body>
+
+    <ai-dialog-footer>
+      <button class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
+      <button class="btn btn-primary" click.trigger="save()">Apply</button>
+    </ai-dialog-footer>
+  </ai-dialog>
+</template>
