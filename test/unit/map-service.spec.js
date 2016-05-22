@@ -125,7 +125,7 @@ describe('the map service get static map function', () => {
     });
   });
 
-  it('skips the ros service call if image is already loaded', () => {
+  it('skips the ros service call if image is already loaded', (done) => {
     sut.staticMapImage = 'is not null or undefined';
     spyOn(mockedService, 'callService').and.callThrough();
     sut.getStaticMapImage().then(() => {
@@ -136,7 +136,7 @@ describe('the map service get static map function', () => {
     });
   });
 
-  it('calls the ros service if enforeced', () => {
+  it('calls the ros service if enforeced', (done) => {
     sut.staticMapImage = 'is not null or undefined';
     spyOn(mockedService, 'callService').and.callThrough();
     sut.getStaticMapImage(true).then(() => {
