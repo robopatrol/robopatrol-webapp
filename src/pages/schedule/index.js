@@ -5,11 +5,11 @@ import {Prompt} from './prompt';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(DialogService, HttpClient, EventAggregator)
+@inject(DialogService,  HttpClient, EventAggregator)
 export class Schedule {
 
   entries = [];
-
+  
   constructor(dialogService, http, ea) {
     this.dialogService = dialogService;
     this.http = http;
@@ -40,7 +40,7 @@ export class Schedule {
       }
     });
   }
-
+  
   post(schedule) {
     return this.http.fetch('schedule', {
         method: 'post',
@@ -57,7 +57,7 @@ export class Schedule {
         });
       });
   }
-
+  
   editSchedule(entry) {
     this.dialogService.open({
       viewModel: EditSchedule,
@@ -102,5 +102,5 @@ export class Schedule {
       .then(body => {
         this.loadSchedules();
       });
-  }
+  } 
 }

@@ -1,11 +1,25 @@
 <template>
   <ai-dialog>
     <ai-dialog-body>
+      <h1>Edit Patrol</h1>
+      
+      <div style="margin-bottom: 10px;">
+        <button class="btn btn-default" click.delegate="load(schedule)"><i class="fa fa-eye"></i> Load</button>
+        <button class="btn btn-default" click.delegate="create()"><i class="fa fa-plus"></i> Create</button>
+        <button class="btn btn-default" click.delegate="edit()"><i class="fa fa-edit"></i> Edit</button>
+        <button class="btn btn-default" click.delegate="save()"><i class="fa fa-save"></i> Save</button>
+        <button class="btn btn-default" click.delegate="clean()"><i class="fa fa-ban"></i> Clean</button>
+      </div>
+      
+      <div class="">
+        <div id="map" style="height:400px; width: 100%; margin-bottom: 20px;" class="col-xs-12 col-md-8"></div>
+      </div>
+        
       <h2>${title}</h2>
       <form>
         <div class="form-group">
           <label for="name">Name</label>
-          <input value.bind="schedule.name" type="text" class="form-control" id="name" placeholder="Name" attach-focus="true">
+          <input value.bind="schedule.name" type="text" class="form-control" id="name" placeholder="Name" attach-focus="true" required="true">
         </div>
         <!-- <div class="form-group">
           <label for="cron">Cron</label>
