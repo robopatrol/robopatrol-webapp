@@ -1,11 +1,25 @@
 <template>
   <ai-dialog>
     <ai-dialog-body>
+      <h1>Edit Patrol</h1>
+      
+      <div style="margin-bottom: 10px; width: 400px;">
+        <!-- <button class="btn btn-default" click.delegate="load(schedule)"><i class="fa fa-eye"></i> Load</button> -->
+        <button class="btn btn-default" click.delegate="create()"><i class="fa fa-plus"></i> Waypoint</button>
+        <button class="btn btn-default" click.delegate="edit()"><i class="fa fa-edit"></i> Edit</button>
+        <!-- <button class="btn btn-default" click.delegate="save()"><i class="fa fa-save"></i> Save</button> -->
+        <button class="btn btn-default" click.delegate="clean()"><i class="fa fa-ban"></i> Clean</button>
+      </div>
+      
+      <div class="">
+        <div id="map" style="height:400px; width: 100%; margin-bottom: 20px;" class="col-xs-12 col-md-8"></div>
+      </div>
+        
       <h2>${title}</h2>
       <form>
         <div class="form-group">
           <label for="name">Name</label>
-          <input value.bind="schedule.name" type="text" class="form-control" id="name" placeholder="Name" attach-focus="true">
+          <input value.bind="schedule.name" type="text" class="form-control" id="name" placeholder="Name" attach-focus="true" required="true">
         </div>
         <!-- <div class="form-group">
           <label for="cron">Cron</label>
@@ -29,46 +43,15 @@
         </div>
 
         <div class="form-group">
-          <label>Second</label>
-          <select class="form-control" value.bind="schedule.second">
-            <option>*</option>
-            <option repeat.for="i of 60">${i}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Minute</label>
-          <select class="form-control" value.bind="schedule.minute">
-            <option>*</option>
-            <option repeat.for="i of 60">${i}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Hour</label>
-          <select class="form-control" value.bind="schedule.hour">
-            <option>*</option>
-            <option repeat.for="i of 24">${i}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Month</label>
-          <select class="form-control" value.bind="schedule.month">
-            <option>*</option>
-            <option repeat.for="i of 12">${i+1}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Day of the Week</label>
-          <select class="form-control" value.bind="schedule.day">
-            <option>*</option>
-            <option repeat.for="i of ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]">${i}</option>-
-          </select>
+        	<label>Time</label>
+        	<input class="form-control" type="text" placeholder="hh:mm" value.bind="schedule.time"></input>
         </div>
       </form>
     </ai-dialog-body>
 
     <ai-dialog-footer>
       <button class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
-      <button class="btn btn-primary" click.trigger="convert(schedule)">Ok</button>
+      <button class="btn btn-primary" click.trigger="convert(schedule)">Save</button>
     </ai-dialog-footer>
   </ai-dialog>
 </template>
