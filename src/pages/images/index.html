@@ -1,12 +1,9 @@
 <template>
   <div class="container">
     <h1>Images of the last patrol</h1>
-    <div>
-      <p>Testing</p>
-        <div repeat.for="picture of images" class="">
-          <p>${picture.id}</p>
-          <p>${picture.name}</p>
-          <p>${picture.image}</p>
+    <div id="pictures">
+        <div repeat.for="picture of images" class="pic">
+          <a href='${picture.image}' data-lightbox='roadtrip'><img src='${picture.image}' alt='${picture.name}' title='${picture.name}' /></a><br/>
           <button class="btn btn-danger btn-xs" click.delegate="deletePicture(picture)">Delete</button>
         </div>
     </div>

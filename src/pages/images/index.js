@@ -16,7 +16,7 @@ export class Pictures {
   }
 
   activate() {
-    this.loadPictures();
+    this.loadPictures();   
   }
 
   loadPictures() {
@@ -30,15 +30,7 @@ export class Pictures {
       });
   }
 
-  put(schedule) {
-    return this.http.fetch('schedule/' + schedule.id, {
-        method: 'put',
-        body: json(schedule),
-        'media-type': 'application/json'
-      });
-  }
-
-  deletePicture(image) {
+  deletePicture(picture) {
     this.dialogService.open({
       viewModel: Prompt,
       model: {
@@ -47,7 +39,7 @@ export class Pictures {
       }
     }).then(response => {
       if (!response.wasCancelled) {
-        this.delete(image);
+        this.delete(picture);
       }
     });
   }

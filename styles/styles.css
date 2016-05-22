@@ -148,6 +148,39 @@ section {
   clear: both;
 }
 
+/********* Images **********/
+#pictures {
+
+}
+
+.pic {
+  width: 30%;
+  float: left;
+  padding: 0px 0px 30px 0px;
+  margin: 0px;
+  text-align: center;
+}
+
+.pic img {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 0px;
+  width: 60%;
+  color: #373737;
+}
+
+.pic img:hover {
+  opacity: 0.7;
+  filter: alpha(opacity=70); /* For IE8 and earlier */
+  cursor: pointer;
+}
+
+.pic button {
+  background-color: #444;
+  border-color: red;
+}
+
 
 
 .pictureDetail {
