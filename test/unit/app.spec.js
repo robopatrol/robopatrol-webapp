@@ -67,4 +67,7 @@ describe('the App module', () => {
     expect(sut.router.routes).toContain({ route: 'ros-infos', name: 'ros-infos', moduleId: 'pages/ros-infos/index', nav: true, title: 'ROS Infos', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/info.png' } });
   });
   
+  it('should have a maps route', () => {
+    expect(sut.router.routes).toContain({ route: 'maps', name: 'maps', moduleId: 'pages/maps/index', nav: true, title: 'Maps', connected: true, settings: { startpage: true, last: false, enable: true, icon: '/img/page/map.png' } });
+  });
 });
