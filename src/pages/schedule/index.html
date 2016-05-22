@@ -7,7 +7,6 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Cron</th>
             <th>Description</th>
             <th></th>
             <th></th>
@@ -16,7 +15,6 @@
         <tbody>
           <tr repeat.for="entry of entries" class="">
             <td>${entry.name}</td>
-            <td>${entry.cron}</td>
             <td>${entry.description}</td>
             <td><button class="btn btn-info btn-xs" click.delegate="editSchedule(entry)">Edit</button></td>
             <td><button class="btn btn-danger btn-xs" click.delegate="deleteSchedule(entry)">Delete</button></td>

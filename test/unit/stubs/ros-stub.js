@@ -14,4 +14,19 @@ export class RosStub {
       }
     });
   }
+
+  serviceIsRunning(serviceName) {
+    return new Promise((resolve, reject) => {
+      return resolve();
+    });
+  }
+}
+
+export class ServiceStub {
+
+  response = {};
+
+  callService(request, callback) {
+    return callback(this.response);
+  }
 }

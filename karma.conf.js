@@ -31,7 +31,9 @@ module.exports = function(config) {
       "http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js",
       "http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js",
       "http://cdn.robotwebtools.org/ros2djs/current/ros2d.min.js",
-      "http://cdn.robotwebtools.org/nav2djs/current/nav2d.min.js"
+      "http://cdn.robotwebtools.org/nav2djs/current/nav2d.min.js",
+      "http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js",
+      "https://cdn.rawgit.com/Leaflet/Leaflet.Editable/gh-pages/src/Leaflet.Editable.js"
     ],
 
     // list of files to exclude
@@ -42,7 +44,8 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'test/**/*.js': ['babel'],
-      'src/**/*.js': ['babel', 'sourcemap', 'coverage']
+      'src/**/*.js': ['babel', 'sourcemap'],
+      'src/!(lib)/**/*.js': ['coverage']
     },
     'babelPreprocessor': {
       options: {
@@ -111,7 +114,7 @@ module.exports = function(config) {
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false
   };
-  
+
   if (process.env.TRAVIS) {
     configuration.browsers = ['Chrome_travis_ci', 'Firefox'];
   }
