@@ -82,12 +82,6 @@ export class Edit {
     ]);
   }
 
-  drawOrientation() {
-    if (!this.orientationLayer) {
-      this.orientationLayer = this.map.editTools.startMarker().addTo(this.map);
-    }
-  }
-
   save() {
     if (!this.arrowLayer) {
       return;
