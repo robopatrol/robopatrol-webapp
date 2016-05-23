@@ -181,6 +181,18 @@ section {
   border-color: red;
 }
 
+#takePhoto {
+  margin-top: 20px;
+  width: 120px;
+  height: 30px;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+#takePhoto:hover {
+  background-color: #ccc;
+}
 
 
 .pictureDetail {

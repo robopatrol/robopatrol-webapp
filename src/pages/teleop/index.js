@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 
-import {Ros, Topic, Message} from '../../lib/ros';
+import {Ros, Service, ServiceRequest, Topic, Message} from '../../lib/ros';
 
 @inject(Ros)
 export class Teleop {
@@ -58,6 +58,26 @@ export class Teleop {
           z : 0
         }
       });
+    
+    this.takePhotoService = new Service({
+      ros: this.ros,
+      name: 'save_photo',
+      serviceType: 'std_srv/Trigger'
+    });
+  }
+
+  savePhoto() {
+    return new Promise((resolve, reject) => {
+      let request = new ServiceRequest();
+      this.takePhotoService.callService(request, (response) => {
+        if (response.success) {
+          window.alert("Response: " + response.message);
+          return resolve(response);
+        } else {
+          return reject(response);
+        }
+      });
+    });
   }
 
   buttonHandle(event, action) {
