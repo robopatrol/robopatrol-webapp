@@ -42,6 +42,7 @@ System.config({
     "fetch": "github:github/fetch@0.11.0",
     "font-awesome": "npm:font-awesome@4.6.1",
     "jquery": "npm:jquery@2.2.3",
+    "lightbox2": "github:lokesh/lightbox2@2.8.2",
     "text": "github:systemjs/plugin-text@0.0.3",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
