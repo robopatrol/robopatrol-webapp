@@ -47,7 +47,6 @@ export class Pictures {
   delete(picture) {
     return this.http.fetch('pictures/'+picture.id, {
         method: 'delete',
-        body: json(picture),
         'media-type': 'application/json'
       })
       .then(body => {
